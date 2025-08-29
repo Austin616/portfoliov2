@@ -28,7 +28,7 @@ const ProjectsPage = () => {
       id: 1,
       title: 'UT Marketplace',
       description: 'A full-stack marketplace application for UT students to buy and sell items safely within the campus community.',
-      technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS'],
+      technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Stripe', 'Socket.io'],
       category: 'Full-Stack',
       status: 'Live',
       year: '2024',
@@ -54,7 +54,7 @@ const ProjectsPage = () => {
       id: 3,
       title: 'EcoNest',
       description: 'Sustainable living platform connecting eco-conscious individuals through challenges, forums, and resource sharing.',
-      technologies: ['Next.js', 'Firebase', 'Tailwind CSS', 'Framer Motion'],
+      technologies: ['Next.js', 'Firebase', 'Tailwind CSS', 'Framer Motion', 'Node.js', 'MongoDB'],
       category: 'Web App',
       status: 'Live',
       year: '2023',
@@ -115,7 +115,9 @@ const ProjectsPage = () => {
   const hoverEffectItems = filteredProjects.map(project => ({
     title: project.title,
     description: project.description,
+    category: project.category, // App type (Full-Stack, Mobile, Web App, etc.)
     image: project.image || '/api/placeholder/400/300', // Use project image or placeholder
+    technologies: project.technologies, // Technologies used in the project
     liveUrl: project.live, // Live demo URL
     githubUrl: project.github, // GitHub repository URL
     project: project, // Pass the full project data

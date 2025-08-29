@@ -9,12 +9,47 @@ export const HoverEffect = ({
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState(null);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 30,
+      scale: 0.95
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.6
+      }
+    }
+  };
+
   return (
-    <div
-      className={cn("grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10", className)}>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className={cn("grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10", className)}
+    >
       {items.map((item, idx) => (
-        <div
+        <motion.div
           key={item?.id || idx}
+          variants={cardVariants}
           className="relative group block p-2 h-full w-full cursor-pointer"
           onClick={() => item.onProjectClick && item.onProjectClick()}
         >
@@ -60,21 +95,47 @@ export const HoverEffect = ({
                 </div>
               )}
               <CardTitle>
-                <div className="flex items-center gap-3">
-                  <img 
-                    src={item.icon} 
-                    alt={`${item.title} logo`}
-                    className="w-8 h-8 object-contain flex-shrink-0"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                  <span className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                    {item.title}
-                  </span>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={item.icon} 
+                      alt={`${item.title} logo`}
+                      className="w-8 h-8 object-contain flex-shrink-0"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                    <span className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
+                      {item.title}
+                    </span>
+                  </div>
+                  {item.category && (
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 flex-shrink-0">
+                      {item.category}
+                    </span>
+                  )}
                 </div>
               </CardTitle>
               <CardDescription>{item.description}</CardDescription>
+              
+              {/* Technologies */}
+              {item.technologies && (
+                <div className="flex flex-wrap gap-1 mt-3">
+                  {item.technologies.slice(0, 4).map((tech, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 rounded text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {item.technologies.length > 4 && (
+                    <span className="px-2 py-1 rounded text-xs font-medium text-neutral-500 dark:text-neutral-500">
+                      +{item.technologies.length - 4} more
+                    </span>
+                  )}
+                </div>
+              )}
               
               {/* Simple Links */}
               <div className="flex gap-4 mt-4">
@@ -104,9 +165,9 @@ export const HoverEffect = ({
               </div>
             </Card>
           </div>
-        </div>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
