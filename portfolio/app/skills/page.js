@@ -25,8 +25,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import GameLuxuryButton from '../../components/GameLuxuryButton';
-import { cn } from "@/lib/utils";
-import { HoverEffect } from '../../components/ui/card-hover-effect';
+import { FloatingDock } from '../../components/ui/floating-dock';
 
 
 
@@ -372,49 +371,45 @@ const Skills = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}>
-              Skill Categories
-            </h2>
+            <TextGenerateEffect 
+              words="Skill Categories"
+              className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}
+              duration={0.5}
+              isDark={isDark}
+              keywords={['Skill', 'Categories']}
+              isTitle={true}
+            />
             <div className="max-w-3xl mx-auto">
               <TextGenerateEffect 
                 words="Organized by technology stack and development focus areas. Here's my technical expertise across the full development lifecycle."
                 className="text-lg md:text-xl leading-relaxed font-sans"
                 duration={0.3}
                 isDark={isDark}
+                keywords={['technology', 'stack', 'development', 'technical', 'expertise', 'lifecycle']}
               />
             </div>
           </motion.div>
 
-          {/* Category Filter */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-3 mb-12"
-          >
-            {categories.map((category) => (
-              <motion.button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                  selectedCategory === category.id
-                    ? isDark
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
-                      : 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                    : isDark
-                      ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {category.name}
-              </motion.button>
-            ))}
-          </motion.div>
+          {/* Floating Dock Category Filter */}
+          <FloatingDock
+            items={categories.map((category) => ({
+              title: category.name,
+              icon: category.id === 'all' 
+                ? <Star className="w-full h-full" />
+                : skillCategories.find(cat => cat.id === category.id)?.icon && React.createElement(
+                    skillCategories.find(cat => cat.id === category.id)?.icon,
+                    { 
+                      className: "w-full h-full"
+                    }
+                  ),
+              onClick: () => setSelectedCategory(category.id)
+            }))}
+            activeIndex={categories.findIndex(cat => cat.id === selectedCategory)}
+            isDark={isDark}
+            className="mb-12"
+          />
 
           {/* Skills with HoverEffect */}
           <AnimatePresence mode="wait">
@@ -444,15 +439,21 @@ const Skills = () => {
                         <div className={`p-3 rounded-xl bg-${category.color}-500/20`}>
                           <Icon className={`w-8 h-8 text-${category.color}-500`} />
                         </div>
-                        <h3 className={`text-2xl md:text-3xl font-bold font-sans ${
-                          isDark ? 'text-white' : 'text-gray-900'
-                        }`}>
-                          {category.name}
-                        </h3>
+                        <TextGenerateEffect 
+                          words={category.name}
+                          className={`text-2xl md:text-3xl font-bold font-sans ${
+                            isDark ? 'text-white' : 'text-gray-900'
+                          }`}
+                          duration={0.4}
+                          isDark={isDark}
+                        />
                       </div>
-                      <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                        {category.description}
-                      </p>
+                      <TextGenerateEffect 
+                        words={category.description}
+                        className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
+                        duration={0.025}
+                        isDark={isDark}
+                      />
                     </div>
 
                     {/* Skills Cards with LinkPreview */}
@@ -520,9 +521,12 @@ const Skills = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-center mt-20"
           >
-            <p className={`text-xl md:text-2xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Let's build something amazing together! 🚀
-            </p>
+            <TextGenerateEffect 
+              words="Let's build something amazing together! 🚀"
+              className={`text-xl md:text-2xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-900'}`}
+              duration={0.5}
+              isDark={isDark}
+            />
             <GameLuxuryButton
               variant="primary"
               size="default"

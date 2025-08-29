@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
+import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { Mail, Phone, MapPin, Send, Github, Linkedin } from "lucide-react";
 import GameLuxuryButton from "../../components/GameLuxuryButton";
 import Link from "next/link";
@@ -72,17 +73,25 @@ export function Contact() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
-            Let's Work Together
-          </h2>
-          <p className={`text-lg md:text-xl font-sans max-w-2xl mx-auto ${
-            isDark ? 'text-gray-300' : 'text-gray-700'
-          }`}>
-            Have a project in mind or want to discuss opportunities? 
-            I'd love to hear from you!
-          </p>
+          <TextGenerateEffect 
+            words="Let's Work Together"
+            className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}
+            duration={0.5}
+            isDark={isDark}
+            keywords={['Work', 'Together']}
+            isTitle={true}
+          />
+          <TextGenerateEffect 
+            words="Have a project in mind or want to discuss opportunities? I'd love to hear from you!"
+            className={`text-lg md:text-xl font-sans max-w-2xl mx-auto ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}
+            duration={0.03}
+            isDark={isDark}
+            keywords={['project', 'opportunities', 'discuss', 'hear']}
+          />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -98,11 +107,16 @@ export function Contact() {
                 : 'bg-gray-50 border-gray-200'
             }`}
           >
-            <h3 className={`text-2xl font-bold mb-6 font-sans ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}>
-              Send a Message
-            </h3>
+            <TextGenerateEffect 
+              words="Send a Message"
+              className={`text-2xl font-bold mb-6 font-sans ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}
+              duration={0.4}
+              isDark={isDark}
+              keywords={['Send', 'Message']}
+              isTitle={true}
+            />
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -189,11 +203,14 @@ export function Contact() {
             className="space-y-8"
           >
             <div>
-              <h3 className={`text-2xl font-bold mb-6 font-sans ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-                Get in Touch
-              </h3>
+              <TextGenerateEffect 
+                words="Get in Touch"
+                className={`text-2xl font-bold mb-6 font-sans ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}
+                duration={0.4}
+                isDark={isDark}
+              />
               
               <div className="space-y-4">
                 {contactInfo.map((info, index) => {
@@ -239,11 +256,14 @@ export function Contact() {
 
             {/* Social Links */}
             <div>
-              <h4 className={`text-lg font-bold mb-4 font-sans ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-                Connect with me
-              </h4>
+              <TextGenerateEffect 
+                words="Connect with me"
+                className={`text-lg font-bold mb-4 font-sans ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}
+                duration={0.3}
+                isDark={isDark}
+              />
               <div className="flex gap-4">
                 {socialLinks.map((link, index) => {
                   const Icon = link.icon;

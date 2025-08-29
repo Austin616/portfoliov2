@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../components/ThemeProvider';
 import { TextGenerateEffect } from '../ui/text-generate-effect';
 import { HoverEffect } from '../../components/ui/card-hover-effect';
 import { useRouter } from 'next/navigation';
-import { FolderOpen, ExternalLink, Github, Calendar, Code, Users } from 'lucide-react';
+import { FolderOpen, ExternalLink, Github, Calendar, Code, Users, Star, Globe, Smartphone, Layout, Palette } from 'lucide-react';
+import { FloatingDock } from '../../components/ui/floating-dock';
 
 const ProjectsPage = () => {
   const { isDark, mounted } = useTheme();
@@ -104,7 +105,39 @@ const ProjectsPage = () => {
     }
   ];
 
-  const categories = ['All', 'Full-Stack', 'Mobile', 'Web App', 'Portfolio'];
+  // Project categories with descriptions and colors
+  const projectCategories = [
+    {
+      id: 'Full-Stack',
+      name: 'Full-Stack Applications',
+      description: 'End-to-end solutions with frontend, backend, and database integration',
+      icon: Code,
+      color: 'blue'
+    },
+    {
+      id: 'Mobile',
+      name: 'Mobile Applications',
+      description: 'Cross-platform and native mobile apps for iOS and Android',
+      icon: Smartphone,
+      color: 'green'
+    },
+    {
+      id: 'Web App',
+      name: 'Web Applications',
+      description: 'Interactive web platforms with modern frontend technologies',
+      icon: Globe,
+      color: 'purple'
+    },
+    {
+      id: 'Portfolio',
+      name: 'Portfolio Projects',
+      description: 'Showcase websites and personal branding projects',
+      icon: Palette,
+      color: 'pink'
+    }
+  ];
+  
+  const categories = ['All', ...projectCategories.map(cat => cat.id)];
   const [selectedCategory, setSelectedCategory] = React.useState('All');
 
   const filteredProjects = selectedCategory === 'All' 
@@ -171,7 +204,7 @@ const ProjectsPage = () => {
         }}
       />
       
-      {/* Project Categories Section */}
+      {/* Main Content Section */}
       <section className="py-20 px-4 md:px-8 lg:px-10">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
@@ -182,56 +215,152 @@ const ProjectsPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}>
-              Project Categories
-            </h2>
+            <TextGenerateEffect 
+              words="Project Categories"
+              className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}
+              duration={0.5}
+              isDark={isDark}
+              keywords={['Project', 'Categories']}
+              isTitle={true}
+            />
             <div className="max-w-3xl mx-auto">
               <TextGenerateEffect 
                 words="A diverse portfolio showcasing full-stack web applications and mobile solutions. Each project demonstrates different technologies and problem-solving approaches."
                 className="text-lg md:text-xl leading-relaxed font-sans"
                 duration={0.3}
                 isDark={isDark}
+                keywords={['portfolio', 'full-stack', 'web applications', 'mobile', 'technologies', 'problem-solving']}
               />
             </div>
           </motion.div>
 
-          {/* Category Filter */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
+          {/* Floating Dock Category Filter */}
+          <FloatingDock
+            items={categories.map((category) => {
+              // Choose appropriate icon based on category
+              let icon;
+              switch(category) {
+                case 'All':
+                  icon = <Star className="w-full h-full" />;
+                  break;
+                case 'Full-Stack':
+                  icon = <Code className="w-full h-full" />;
+                  break;
+                case 'Mobile':
+                  icon = <Smartphone className="w-full h-full" />;
+                  break;
+                case 'Web App':
+                  icon = <Globe className="w-full h-full" />;
+                  break;
+                case 'Portfolio':
+                  icon = <Palette className="w-full h-full" />;
+                  break;
+                default:
+                  icon = <FolderOpen className="w-full h-full" />;
+              }
+              
+              return {
+                title: category,
+                icon: icon,
+                onClick: () => setSelectedCategory(category)
+              };
+            })}
+            activeIndex={categories.findIndex(cat => cat === selectedCategory)}
+            isDark={isDark}
             className="mb-12"
-          >
-            <div className="flex flex-wrap justify-center gap-4">
-              {categories.map((category) => (
-                <motion.button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                    selectedCategory === category
-                      ? 'bg-blue-500 text-white shadow-lg'
-                      : isDark
-                        ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {category}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+          />
 
-      {/* Projects Grid */}
-      <section className="px-4 md:px-8 lg:px-10">
-        <div className="max-w-7xl mx-auto">
-          <HoverEffect items={hoverEffectItems} />
+          {/* Projects Grid with Category Headers */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedCategory}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-16"
+            >
+              {/* Category Header */}
+              {selectedCategory !== 'All' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <div className="flex items-center justify-center gap-4 mb-4">
+                    {projectCategories.find(cat => cat.id === selectedCategory) && (
+                      <>
+                        <div className={`p-3 rounded-xl bg-${projectCategories.find(cat => cat.id === selectedCategory).color}-500/20`}>
+                          {React.createElement(
+                            projectCategories.find(cat => cat.id === selectedCategory).icon,
+                            { 
+                              className: `w-8 h-8 text-${projectCategories.find(cat => cat.id === selectedCategory).color}-500`
+                            }
+                          )}
+                        </div>
+                        <TextGenerateEffect 
+                          words={projectCategories.find(cat => cat.id === selectedCategory).name}
+                          className={`text-2xl md:text-3xl font-bold font-sans ${
+                            isDark ? 'text-white' : 'text-gray-900'
+                          }`}
+                          duration={0.4}
+                          isDark={isDark}
+                          isTitle={true}
+                        />
+                      </>
+                    )}
+                  </div>
+                  {projectCategories.find(cat => cat.id === selectedCategory) && (
+                    <TextGenerateEffect 
+                      words={projectCategories.find(cat => cat.id === selectedCategory).description}
+                      className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
+                      duration={0.025}
+                      isDark={isDark}
+                    />
+                  )}
+                </motion.div>
+              )}
+              
+              {/* All Projects Header */}
+              {selectedCategory === 'All' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <div className="flex items-center justify-center gap-4 mb-4">
+                    <div className="p-3 rounded-xl bg-blue-500/20">
+                      <Star className="w-8 h-8 text-blue-500" />
+                    </div>
+                    <TextGenerateEffect 
+                      words="All Projects"
+                      className={`text-2xl md:text-3xl font-bold font-sans ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}
+                      duration={0.4}
+                      isDark={isDark}
+                      isTitle={true}
+                    />
+                  </div>
+                  <TextGenerateEffect 
+                    words="A complete collection of my projects across all categories and technologies"
+                    className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
+                    duration={0.025}
+                    isDark={isDark}
+                  />
+                </motion.div>
+              )}
+              
+              {/* Projects Grid */}
+              <HoverEffect items={hoverEffectItems} />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
@@ -252,10 +381,10 @@ const ProjectsPage = () => {
             <h2 className={`text-2xl md:text-3xl font-bold mb-4 ${
               isDark ? 'text-white' : 'text-gray-900'
             }`}>
-              Let's Build Something Together
+              Let&apos;s Build Something Together
             </h2>
             <p className={`text-lg mb-8 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-              Interested in collaborating or have a project in mind? I'd love to hear from you.
+              Interested in collaborating or have a project in mind? I&apos;d love to hear from you.
             </p>
             <motion.a
               href="/#contact"
@@ -273,7 +402,6 @@ const ProjectsPage = () => {
           </motion.div>
         </div>
       </section>
-
     </div>
   );
 };

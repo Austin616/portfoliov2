@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
+import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { Code, Dumbbell, Coffee, Music, MapPin, Calendar } from "lucide-react";
 import Image from "next/image";
 import hero from "../../public/images/hero.jpg";
@@ -32,18 +33,25 @@ export function About() {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <h2 className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
-            More About Me
-          </h2>
-          <p className={`text-lg md:text-xl leading-relaxed font-sans max-w-4xl ${
-            isDark ? 'text-gray-300' : 'text-gray-700'
-          }`}>
-            I'm a passionate full-stack developer currently finishing my Computer Science 
-            degree at UT Austin. Beyond coding, I enjoy staying active at the gym, exploring 
-            new coffee shops, and listening to music while working on projects.
-          </p>
+          <TextGenerateEffect 
+            words="More About Me"
+            className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}
+            duration={0.5}
+            isDark={isDark}
+            keywords={['More', 'About', 'Me']}
+            isTitle={true}
+          />
+          <TextGenerateEffect 
+            words="I'm a passionate full-stack developer currently finishing my Computer Science degree at UT Austin. Beyond coding, I enjoy staying active at the gym, exploring new coffee shops, and listening to music while working on projects."
+            className={`text-lg md:text-xl leading-relaxed font-sans max-w-4xl ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}
+            duration={0.02}
+            isDark={isDark}
+            keywords={['full-stack', 'developer', 'Computer', 'Science', 'UT', 'Austin', 'coding', 'projects']}
+          />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
@@ -85,11 +93,14 @@ export function About() {
                 : 'bg-gray-50 border-gray-200'
             }`}
           >
-            <h3 className={`text-xl font-bold mb-4 font-sans ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}>
-              Personal Info
-            </h3>
+            <TextGenerateEffect 
+              words="Personal Info"
+              className={`text-xl font-bold mb-4 font-sans ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}
+              duration={0.3}
+              isDark={isDark}
+            />
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <MapPin className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
@@ -118,11 +129,14 @@ export function About() {
                 : 'bg-gray-50 border-gray-200'
             }`}
           >
-            <h3 className={`text-xl font-bold mb-4 font-sans ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}>
-              Interests
-            </h3>
+            <TextGenerateEffect 
+              words="Interests"
+              className={`text-xl font-bold mb-4 font-sans ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}
+              duration={0.3}
+              isDark={isDark}
+            />
             <div className="grid grid-cols-2 gap-3">
               {interests.map((interest, index) => {
                 const Icon = interest.icon;
@@ -183,11 +197,14 @@ export function About() {
           
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6">
-              <h3 className={`text-2xl font-bold font-sans ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-                Technical Skills
-              </h3>
+              <TextGenerateEffect 
+                words="Technical Skills"
+                className={`text-2xl font-bold font-sans ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}
+                duration={0.4}
+                isDark={isDark}
+              />
               <motion.div
                 className={`p-2 rounded-full ${
                   isDark ? 'bg-blue-500/20' : 'bg-blue-100'
@@ -262,11 +279,14 @@ export function About() {
           
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6">
-              <h3 className={`text-2xl font-bold font-sans ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-                💪 Gym Stats
-              </h3>
+              <TextGenerateEffect 
+                words="💪 Gym Stats"
+                className={`text-2xl font-bold font-sans ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}
+                duration={0.4}
+                isDark={isDark}
+              />
               <motion.div
                 className={`p-2 rounded-full ${
                   isDark ? 'bg-red-500/20' : 'bg-red-100'

@@ -2,6 +2,7 @@
 import { useScroll, useTransform, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../components/ThemeProvider";
+import { TextGenerateEffect } from "./text-generate-effect";
 
 export const Timeline = ({ data }) => {
   const { isDark } = useTheme();
@@ -27,12 +28,18 @@ export const Timeline = ({ data }) => {
   return (
     <div className="w-full font-sans md:px-10" ref={containerRef}>
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        <h2 className={`text-lg md:text-4xl mb-4 max-w-4xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          My Journey
-        </h2>
-        <p className={`text-sm md:text-base max-w-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-          Here's my professional timeline and key milestones.
-        </p>
+        <TextGenerateEffect 
+          words="My Journey"
+          className={`text-lg md:text-4xl mb-4 max-w-4xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
+          duration={0.5}
+          isDark={isDark}
+        />
+        <TextGenerateEffect 
+          words="Here's my professional timeline and key milestones."
+          className={`text-sm md:text-base max-w-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
+          duration={0.03}
+          isDark={isDark}
+        />
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">

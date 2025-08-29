@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { FlipWords } from "../ui/flip-words";
 import { Spotlight } from "../ui/spotlight-new";
-import { Github, Linkedin, Mail, Code } from "lucide-react";
+import { Github, Linkedin, Mail, Code, Download, ChevronDown, ChevronUp } from "lucide-react";
 import { useTheme } from "../../components/ThemeProvider";
 import GameLuxuryButton from "../../components/GameLuxuryButton";
 import ButtonPopover from "../../components/ButtonPopover";
@@ -27,6 +27,33 @@ const socialLinks = [
 
 export function Hero() {
   const { isDark, mounted } = useTheme();
+  const [isAtLastSection, setIsAtLastSection] = useState(false);
+
+  useEffect(() => {
+    const checkScrollPosition = () => {
+      const sections = ['#experience', '#about', '#contact'];
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      
+      let currentSectionIndex = -1;
+      sections.forEach((sectionId, index) => {
+        const element = document.querySelector(sectionId);
+        if (element) {
+          const elementTop = element.offsetTop;
+          if (scrollPosition >= elementTop) {
+            currentSectionIndex = index;
+          }
+        }
+      });
+      
+      // Check if we're at the last section (contact)
+      setIsAtLastSection(currentSectionIndex === sections.length - 1);
+    };
+
+    window.addEventListener('scroll', checkScrollPosition);
+    checkScrollPosition(); // Check initial position
+
+    return () => window.removeEventListener('scroll', checkScrollPosition);
+  }, []);
 
   if (!mounted) {
     return (
@@ -91,6 +118,8 @@ export function Hero() {
             className="text-lg md:text-xl leading-relaxed font-sans"
             duration={0.3}
             isDark={isDark}
+            keywords={['full-stack', 'developer', 'web', 'mobile', 'applications', 'user', 'interfaces', 'University', 'Texas', 'Austin', 'full-time', 'position', 'tech', 'industry']}
+            isTitle={true}
           />
         </motion.div>
         
@@ -109,6 +138,20 @@ export function Hero() {
             className="shadow-xl shadow-blue-500/20"
           >
             Get In Touch
+          </GameLuxuryButton>
+          
+          <GameLuxuryButton
+            variant="ghost"
+            size="default"
+            icon={Download}
+            href="/resume.pdf"
+            target="_blank"
+            className={isDark 
+              ? 'shadow-xl shadow-blue-500/20' 
+              : 'bg-white/90 shadow-xl shadow-blue-500/20'
+            }
+          >
+            Download Resume
           </GameLuxuryButton>
           
           <GameLuxuryButton
@@ -157,7 +200,82 @@ export function Hero() {
             </ButtonPopover>
           ))}
         </motion.div>
+        
       </div>
+      
+      {/* Animated Down Arrow - Fixed at bottom of screen */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
+      >
+          <motion.button
+            onClick={() => {
+              // Get all sections in order as they appear on the page
+              const sections = ['#experience', '#about', '#contact'];
+              
+              // Find current section based on scroll position
+              let currentSectionIndex = -1;
+              const scrollPosition = window.scrollY + window.innerHeight / 2;
+              
+              sections.forEach((sectionId, index) => {
+                const element = document.querySelector(sectionId);
+                if (element) {
+                  const elementTop = element.offsetTop;
+                  if (scrollPosition >= elementTop) {
+                    currentSectionIndex = index;
+                  }
+                }
+              });
+              
+              // Scroll to next section
+              const nextSectionIndex = currentSectionIndex + 1;
+              if (nextSectionIndex < sections.length) {
+                const nextSection = document.querySelector(sections[nextSectionIndex]);
+                if (nextSection) {
+                  nextSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              } else {
+                // If at last section, scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            animate={{
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`
+              inline-flex items-center justify-center rounded-full h-12 w-12 transition-all duration-200 ${
+                isDark 
+                  ? 'border border-gray-600/50 hover:border-blue-500/50 hover:bg-blue-500/10 text-gray-400 hover:text-blue-400' 
+                  : 'border border-gray-300/50 hover:border-blue-500/50 hover:bg-blue-500/10 text-gray-600 hover:text-blue-600'
+              }
+            `}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isAtLastSection ? 'up' : 'down'}
+                initial={{ opacity: 0, rotateX: 90 }}
+                animate={{ opacity: 1, rotateX: 0 }}
+                exit={{ opacity: 0, rotateX: -90 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                {isAtLastSection ? (
+                  <ChevronUp className="w-6 h-6" />
+                ) : (
+                  <ChevronDown className="w-6 h-6" />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </motion.button>
+        </motion.div>
     </div>
   );
 }
