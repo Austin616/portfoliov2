@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronRight, User, Calendar, Mail, Sun, Moon, Home, Code, User2, Briefcase, Github, Linkedin } from 'lucide-react';
+import { Menu, X, ChevronRight, User, Calendar, Mail, Sun, Moon, Home, Code, User2, Briefcase, Github, Linkedin, Dumbbell, FolderOpen } from 'lucide-react';
 
 import { useTheme } from '../../components/ThemeProvider';
 import ThemeToggle from '../../components/ThemeToggle';
@@ -66,10 +66,9 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { href: '/#', label: 'Home', icon: <Home className="w-4 h-4" /> },
-    { href: '/#about', label: 'About', icon: <User2 className="w-4 h-4" /> },
-    { href: '/#skills', label: 'Skills', icon: <Code className="w-4 h-4" /> },
-    { href: '/#contact', label: 'Contact', icon: <Mail className="w-4 h-4" /> },
+    { href: '/skills', label: 'Skills', icon: <Code className="w-4 h-4" />, isPage: true },
+    { href: '/projects', label: 'Projects', icon: <FolderOpen className="w-4 h-4" />, isPage: true },
+    { href: '/gym', label: 'Gym', icon: <Dumbbell className="w-4 h-4" />, isPage: true },
   ];
 
   if (!mounted) {
@@ -162,27 +161,48 @@ const Header = () => {
         </button>
 
         {navLinks.map((link, index) => (
-          <a
-            key={link.href}
-            onClick={(e) => {
-              smoothScroll(e, link.href);
-              setIsMenuOpen(false);
-            }}
-            className={`
-              group mt-14 first:mt-14 flex w-full items-center justify-between gap-x-3 border-b p-4 text-left text-2xl font-semibold font-sans transition-colors ${
-                isDark 
-                  ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
-                  : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
-              }
-            `}
-            href={link.href}
-          >
-            <div className="flex items-center gap-x-3">
-              {link.icon}
-              {link.label}
-            </div>
-            <ChevronRight className="relative left-0 h-6 w-6 stroke-[3] opacity-50 transition-all duration-200 ease-in-out group-hover:left-1 group-hover:opacity-100" />
-          </a>
+          link.isPage ? (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsMenuOpen(false)}
+              className={`
+                group mt-14 first:mt-14 flex w-full items-center justify-between gap-x-3 border-b p-4 text-left text-2xl font-semibold font-sans transition-colors ${
+                  isDark 
+                    ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
+                    : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
+                }
+              `}
+            >
+              <div className="flex items-center gap-x-3">
+                {link.icon}
+                {link.label}
+              </div>
+              <ChevronRight className="relative left-0 h-6 w-6 stroke-[3] opacity-50 transition-all duration-200 ease-in-out group-hover:left-1 group-hover:opacity-100" />
+            </Link>
+          ) : (
+            <a
+              key={link.href}
+              onClick={(e) => {
+                smoothScroll(e, link.href);
+                setIsMenuOpen(false);
+              }}
+              className={`
+                group mt-14 first:mt-14 flex w-full items-center justify-between gap-x-3 border-b p-4 text-left text-2xl font-semibold font-sans transition-colors ${
+                  isDark 
+                    ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
+                    : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
+                }
+              `}
+              href={link.href}
+            >
+              <div className="flex items-center gap-x-3">
+                {link.icon}
+                {link.label}
+              </div>
+              <ChevronRight className="relative left-0 h-6 w-6 stroke-[3] opacity-50 transition-all duration-200 ease-in-out group-hover:left-1 group-hover:opacity-100" />
+            </a>
+          )
         ))}
 
         {/* Mobile Theme Switch */}
@@ -213,57 +233,114 @@ const Header = () => {
       <div className="hidden items-center w-full justify-end gap-x-6 sm:flex">
         {/* Nav Links */}
         <div className="flex items-center gap-x-6">
-          {navLinks.slice(0, 4).map((link) => (
-            <a key={link.href} href={link.href} onClick={(e) => smoothScroll(e, link.href)}>
-              <motion.div 
-                className="relative flex items-center gap-x-2 cursor-pointer text-sm font-semibold font-sans px-3 py-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-              >
-                {/* Icon with fun rotation */}
-                <motion.div
-                  whileHover={{ 
-                    rotate: 360,
-                    scale: 1.2,
-                  }}
-                  transition={{ 
-                    duration: 0.5,
-                    ease: "easeInOut"
-                  }}
-                  className={`transition-colors duration-300 ${
-                    isDark 
-                      ? 'text-gray-400 hover:text-blue-400' 
-                      : 'text-gray-500 hover:text-blue-600'
-                  }`}
-                >
-                  {link.icon}
-                </motion.div>
-
-                {/* Text with smooth scaling */}
-                <motion.span
-                  className={`transition-colors duration-300 ${
-                    isDark 
-                      ? 'text-gray-300 hover:text-blue-300' 
-                      : 'text-gray-600 hover:text-blue-600'
-                  }`}
-                  whileHover={{ scale: 1.1 }}
+          {navLinks.map((link) => (
+            link.isPage ? (
+              <Link key={link.href} href={link.href}>
+                <motion.div 
+                  className="group relative flex items-center gap-x-2 cursor-pointer text-sm font-semibold font-sans px-3 py-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {link.label}
-                </motion.span>
+                  {/* Icon with group hover rotation */}
+                  <motion.div
+                    className={`transition-colors duration-300 ${
+                      isDark 
+                        ? 'text-gray-400 group-hover:text-blue-400' 
+                        : 'text-gray-500 group-hover:text-blue-600'
+                    }`}
+                    animate={{
+                      rotate: 0,
+                      scale: 1,
+                    }}
+                    whileHover={{ 
+                      rotate: 360,
+                      scale: 1.2,
+                    }}
+                    transition={{ 
+                      duration: 0.5,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    {link.icon}
+                  </motion.div>
 
-                {/* Clean underline */}
-                <motion.div
-                  className={`absolute bottom-0 left-0 h-0.5 ${
-                    isDark ? 'bg-blue-400' : 'bg-blue-500'
-                  }`}
-                  initial={{ width: 0 }}
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
-            </a>
+                  {/* Text with group hover color change */}
+                  <span
+                    className={`transition-colors duration-300 ${
+                      isDark 
+                        ? 'text-gray-300 group-hover:text-blue-300' 
+                        : 'text-gray-600 group-hover:text-blue-600'
+                    }`}
+                  >
+                    {link.label}
+                  </span>
+
+                  {/* Clean underline */}
+                  <motion.div
+                    className={`absolute bottom-0 left-0 h-0.5 ${
+                      isDark ? 'bg-blue-400' : 'bg-blue-500'
+                    }`}
+                    initial={{ width: 0 }}
+                    whileHover={{ width: '100%' }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.div>
+              </Link>
+            ) : (
+              <a key={link.href} href={link.href} onClick={(e) => smoothScroll(e, link.href)}>
+                <motion.div 
+                  className="group relative flex items-center gap-x-2 cursor-pointer text-sm font-semibold font-sans px-3 py-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {/* Icon with group hover rotation */}
+                  <motion.div
+                    className={`transition-colors duration-300 ${
+                      isDark 
+                        ? 'text-gray-400 group-hover:text-blue-400' 
+                        : 'text-gray-500 group-hover:text-blue-600'
+                    }`}
+                    animate={{
+                      rotate: 0,
+                      scale: 1,
+                    }}
+                    whileHover={{ 
+                      rotate: 360,
+                      scale: 1.2,
+                    }}
+                    transition={{ 
+                      duration: 0.5,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    {link.icon}
+                  </motion.div>
+
+                  {/* Text with group hover color change */}
+                  <span
+                    className={`transition-colors duration-300 ${
+                      isDark 
+                        ? 'text-gray-300 group-hover:text-blue-300' 
+                        : 'text-gray-600 group-hover:text-blue-600'
+                    }`}
+                  >
+                    {link.label}
+                  </span>
+
+                  {/* Clean underline */}
+                  <motion.div
+                    className={`absolute bottom-0 left-0 h-0.5 ${
+                      isDark ? 'bg-blue-400' : 'bg-blue-500'
+                    }`}
+                    initial={{ width: 0 }}
+                    whileHover={{ width: '100%' }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.div>
+              </a>
+            )
           ))}
         </div>
         

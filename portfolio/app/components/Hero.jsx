@@ -27,16 +27,6 @@ const socialLinks = [
 
 export function Hero() {
   const { isDark, mounted } = useTheme();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const updateMousePosition = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", updateMousePosition);
-    return () => window.removeEventListener("mousemove", updateMousePosition);
-  }, []);
 
   if (!mounted) {
     return (
@@ -57,27 +47,7 @@ export function Hero() {
   }
 
   return (
-    <div 
-      className="min-h-screen w-full rounded-md flex md:items-center md:justify-center antialiased relative overflow-hidden"
-      style={{
-        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.96)' : 'white',
-        backgroundImage: isDark 
-          ? 'linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px)'
-          : 'linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }}
-    >
-      {/* Cursor Following Spotlight */}
-      <div
-        className="pointer-events-none fixed inset-0 z-30 transition duration-300"
-        style={{
-          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, ${
-            isDark 
-              ? 'rgba(59, 130, 246, 0.15), transparent 80%' 
-              : 'rgba(59, 130, 246, 0.1), transparent 80%'
-          })`
-        }}
-      />
+    <div className="min-h-screen w-full rounded-md flex md:items-center md:justify-center antialiased relative overflow-hidden">
       <Spotlight 
         className="-top-40 left-0 md:left-60 md:-top-20" 
         fill="rgba(59, 130, 246, 0.3)" 

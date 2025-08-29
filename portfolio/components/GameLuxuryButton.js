@@ -27,11 +27,13 @@ const GameLuxuryButton = ({
       textColor: 'text-white'
     },
     ghost: {
-      base: 'bg-transparent border-blue-400 text-blue-700',
+      base: isDark 
+        ? 'bg-transparent border-blue-400/50 text-blue-300' 
+        : 'bg-transparent border-blue-400 text-blue-700',
       hover: 'shadow-blue-500/30 bg-blue-500/10',
       glow: 'rgba(59, 130, 246, 0.2)',
       accent: '#3b82f6',
-      textColor: 'text-blue-700'
+      textColor: isDark ? 'text-blue-300' : 'text-blue-700'
     }
   };
 
