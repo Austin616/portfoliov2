@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
+import { LinkPreview } from "./link-preview";
 
 import { useState } from "react";
 
@@ -46,13 +47,23 @@ export const HoverEffect = ({
       animate="visible"
       className={cn("grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10", className)}
     >
-      {items.map((item, idx) => (
-        <motion.div
-          key={item?.id || idx}
-          variants={cardVariants}
-          className="relative group block p-2 h-full w-full cursor-pointer"
-          onClick={() => item.onProjectClick && item.onProjectClick()}
-        >
+      {items.map((item, idx) => {
+        const isProjectCard = item.onProjectClick;
+        const isSkillCard = item.link && !item.onProjectClick;
+        
+        return (
+          <motion.div
+            key={item?.id || item?.link || idx}
+            variants={cardVariants}
+            className="relative group block p-2 h-full w-full cursor-pointer"
+            onClick={() => {
+              if (item.onProjectClick) {
+                item.onProjectClick();
+              } else if (item.link) {
+                window.open(item.link, '_blank');
+              }
+            }}
+          >
           <div
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -166,7 +177,8 @@ export const HoverEffect = ({
             </Card>
           </div>
         </motion.div>
-      ))}
+        );
+      })}
     </motion.div>
   );
 };

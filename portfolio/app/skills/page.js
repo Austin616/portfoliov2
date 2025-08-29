@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../components/ThemeProvider';
 import Header from '../components/Header';
-import { HoverEffect } from '../../components/ui/card-hover-effect';
 import { LinkPreview } from '../../components/ui/link-preview';
 import { TextGenerateEffect } from '../ui/text-generate-effect';
 
@@ -26,6 +25,8 @@ import {
   BarChart3
 } from 'lucide-react';
 import GameLuxuryButton from '../../components/GameLuxuryButton';
+import { cn } from "@/lib/utils";
+import { HoverEffect } from '../../components/ui/card-hover-effect';
 
 
 
@@ -454,9 +455,56 @@ const Skills = () => {
                       </p>
                     </div>
 
-                    {/* HoverEffect Cards */}
+                    {/* Skills Cards with LinkPreview */}
                     <div className="max-w-6xl mx-auto">
-                      <HoverEffect items={category.items} />
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {category.items.map((skill, skillIndex) => (
+                          <LinkPreview 
+                            key={skill.link}
+                            url={skill.link} 
+                            className="relative group block p-2 h-full w-full"
+                          >
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.6, delay: skillIndex * 0.1 }}
+                              viewport={{ once: true }}
+                              whileHover={{ y: -5 }}
+                              className={`h-full rounded-2xl border p-6 transition-all duration-300 hover:shadow-xl ${
+                                isDark 
+                                  ? 'bg-gray-900/50 border-gray-800 hover:border-blue-500/50' 
+                                  : 'bg-white border-gray-200 hover:border-blue-300/50'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3 mb-4">
+                                <img 
+                                  src={skill.icon} 
+                                  alt={`${skill.title} logo`}
+                                  className="w-8 h-8 object-contain flex-shrink-0"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                  }}
+                                />
+                                <h4 className={`font-bold text-lg ${
+                                  isDark ? 'text-white' : 'text-gray-900'
+                                }`}>
+                                  {skill.title}
+                                </h4>
+                              </div>
+                              
+                              <p className={`text-sm leading-relaxed mb-4 ${
+                                isDark ? 'text-gray-300' : 'text-gray-600'
+                              }`}>
+                                {skill.description}
+                              </p>
+                              
+
+                              
+
+                            </motion.div>
+                          </LinkPreview>
+                        ))}
+                      </div>
                     </div>
                   </motion.div>
                 );
