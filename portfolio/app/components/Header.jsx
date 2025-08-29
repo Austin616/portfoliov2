@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight, User, Calendar, Mail, Sun, Moon, Home, Code, User2, Briefcase, Github, Linkedin, Dumbbell, FolderOpen } from 'lucide-react';
 
@@ -29,7 +30,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { isDark, mounted } = useTheme();
-
+  const pathname = usePathname();
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -66,6 +68,7 @@ const Header = () => {
   }, []);
 
   const navLinks = [
+    { href: '/', label: 'Home', icon: <Home className="w-4 h-4" />, isPage: true },
     { href: '/skills', label: 'Skills', icon: <Code className="w-4 h-4" />, isPage: true },
     { href: '/projects', label: 'Projects', icon: <FolderOpen className="w-4 h-4" />, isPage: true },
     { href: '/gym', label: 'Gym', icon: <Dumbbell className="w-4 h-4" />, isPage: true },
@@ -168,9 +171,13 @@ const Header = () => {
               onClick={() => setIsMenuOpen(false)}
               className={`
                 group mt-14 first:mt-14 flex w-full items-center justify-between gap-x-3 border-b p-4 text-left text-2xl font-semibold font-sans transition-colors ${
-                  isDark 
-                    ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
-                    : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
+                  pathname === link.href
+                    ? isDark 
+                      ? 'border-blue-500 bg-blue-500/10 text-blue-400'
+                      : 'border-blue-500 bg-blue-500/10 text-blue-600'
+                    : isDark 
+                      ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
+                      : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
                 }
               `}
             >
@@ -245,9 +252,11 @@ const Header = () => {
                   {/* Icon with group hover rotation */}
                   <motion.div
                     className={`transition-colors duration-300 ${
-                      isDark 
-                        ? 'text-gray-400 group-hover:text-blue-400' 
-                        : 'text-gray-500 group-hover:text-blue-600'
+                      pathname === link.href
+                        ? isDark ? 'text-blue-400' : 'text-blue-600'
+                        : isDark 
+                          ? 'text-gray-400 group-hover:text-blue-400' 
+                          : 'text-gray-500 group-hover:text-blue-600'
                     }`}
                     animate={{
                       rotate: 0,
@@ -268,23 +277,33 @@ const Header = () => {
                   {/* Text with group hover color change */}
                   <span
                     className={`transition-colors duration-300 ${
-                      isDark 
-                        ? 'text-gray-300 group-hover:text-blue-300' 
-                        : 'text-gray-600 group-hover:text-blue-600'
+                      pathname === link.href
+                        ? isDark ? 'text-blue-300' : 'text-blue-600'
+                        : isDark 
+                          ? 'text-gray-300 group-hover:text-blue-300' 
+                          : 'text-gray-600 group-hover:text-blue-600'
                     }`}
                   >
                     {link.label}
                   </span>
 
                   {/* Clean underline */}
-                  <motion.div
-                    className={`absolute bottom-0 left-0 h-0.5 ${
-                      isDark ? 'bg-blue-400' : 'bg-blue-500'
-                    }`}
-                    initial={{ width: 0 }}
-                    whileHover={{ width: '100%' }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  {pathname === link.href ? (
+                    <div
+                      className={`absolute bottom-0 left-0 h-0.5 w-full ${
+                        isDark ? 'bg-blue-400' : 'bg-blue-500'
+                      }`}
+                    />
+                  ) : (
+                    <motion.div
+                      className={`absolute bottom-0 left-0 h-0.5 ${
+                        isDark ? 'bg-blue-400' : 'bg-blue-500'
+                      }`}
+                      initial={{ width: 0 }}
+                      whileHover={{ width: '100%' }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
                 </motion.div>
               </Link>
             ) : (

@@ -5,6 +5,8 @@ import { Experience } from './components/Experience'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { useTheme } from '../components/ThemeProvider'
+import { VerticalDock } from '../components/ui/vertical-dock'
+import { Home as HomeIcon, Briefcase, User, Mail, Code, FileText, Star } from 'lucide-react'
 
 const Home = () => {
   const { isDark, mounted } = useTheme();
@@ -18,6 +20,47 @@ const Home = () => {
     window.addEventListener("mousemove", updateMousePosition);
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, []);
+
+  // Navigation items for the vertical dock
+  const verticalNavItems = [
+    {
+      title: "Home",
+      icon: <HomeIcon className="w-full h-full" />,
+      onClick: () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      title: "Experience",
+      icon: <Briefcase className="w-full h-full" />,
+      onClick: () => {
+        const experienceSection = document.querySelector('#experience');
+        if (experienceSection) {
+          experienceSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    },
+    {
+      title: "About",
+      icon: <User className="w-full h-full" />,
+      onClick: () => {
+        const aboutSection = document.querySelector('#about');
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    },
+    {
+      title: "Contact",
+      icon: <Mail className="w-full h-full" />,
+      onClick: () => {
+        const contactSection = document.querySelector('#contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    },
+  ];
 
   if (!mounted) {
     return (
@@ -57,6 +100,14 @@ const Home = () => {
       <Experience />
       <About />
       <Contact />
+      
+      {/* Vertical Navigation Dock */}
+      <VerticalDock 
+        items={verticalNavItems} 
+        isDark={isDark} 
+        showAfterHero={true}
+        position="right"
+      />
     </div>
   )
 }

@@ -74,7 +74,7 @@ export function Hero() {
   }
 
   return (
-    <div className="min-h-screen w-full rounded-md flex md:items-center md:justify-center antialiased relative overflow-hidden">
+    <div data-section="hero" className="min-h-screen w-full rounded-md flex md:items-center md:justify-center antialiased relative overflow-hidden">
       <Spotlight 
         className="-top-40 left-0 md:left-60 md:-top-20" 
         fill="rgba(59, 130, 246, 0.3)" 

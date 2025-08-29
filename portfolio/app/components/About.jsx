@@ -4,9 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-import { Code, Dumbbell, Coffee, Music, MapPin, Calendar } from "lucide-react";
+import { Code, Dumbbell, Coffee, Music, MapPin, Calendar, FolderOpen } from "lucide-react";
 import Image from "next/image";
 import hero from "../../public/images/hero.jpg";
+import { LinkPreview } from "../../components/ui/link-preview";
+import { HoverEffect } from "../../components/ui/card-hover-effect";
 
 export function About() {
   const { isDark } = useTheme();
@@ -172,181 +174,288 @@ export function About() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
-          className={`relative p-8 rounded-2xl border overflow-hidden cursor-pointer group ${
-            isDark 
-              ? 'bg-gradient-to-br from-blue-900/30 to-purple-900/30 border-blue-500/30 hover:border-blue-400/50' 
-              : 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200 hover:border-blue-300'
-          }`}
-          onClick={() => window.location.href = '/skills'}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          className="mt-8"
         >
-          {/* Background gradient animation */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -skew-x-12"
-            animate={{
-              x: ['-100%', '200%']
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatDelay: 3,
-              ease: "easeInOut"
-            }}
-          />
-          
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-6">
-              <TextGenerateEffect 
-                words="Technical Skills"
-                className={`text-2xl font-bold font-sans ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}
-                duration={0.4}
-                isDark={isDark}
-              />
-              <motion.div
-                className={`p-2 rounded-full ${
-                  isDark ? 'bg-blue-500/20' : 'bg-blue-100'
-                }`}
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
-                <Code className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
-              </motion.div>
+          <div className="relative">
+            {/* Section Header */}
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className={`p-3 rounded-xl ${isDark ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                  <Code className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                </div>
+                <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  Technical Skills
+                </h3>
+              </div>
+              <p className={`max-w-2xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                Here are some of my top technical skills. Visit my skills page to see my complete tech stack.
+              </p>
             </div>
             
-            <div className="flex flex-wrap gap-2 mb-6">
-              {skills.slice(0, 8).map((skill, index) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  viewport={{ once: true }}
-                  className={`px-3 py-1 rounded-full text-sm font-medium font-sans border ${
-                    isDark 
-                      ? 'bg-blue-600/20 border-blue-500/30 text-blue-300' 
-                      : 'bg-blue-50 border-blue-200 text-blue-800'
-                  }`}
-                >
-                  {skill}
-                </motion.span>
+            {/* Skills Cards with LinkPreview */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              {[
+                {
+                  title: 'React & Next.js',
+                  description: 'Advanced React patterns, SSR, and modern hooks. Built 10+ production apps with Next.js 13+ features.',
+                  link: 'https://react.dev',
+                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg'
+                },
+                {
+                  title: 'TypeScript',
+                  description: 'Type-safe development with advanced TypeScript patterns. ES6+ features and modern JS paradigms.',
+                  link: 'https://www.typescriptlang.org',
+                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg'
+                },
+                {
+                  title: 'Tailwind CSS',
+                  description: 'Utility-first CSS framework mastery. Custom design systems and responsive layouts.',
+                  link: 'https://tailwindcss.com',
+                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg'
+                },
+                {
+                  title: 'React Native',
+                  description: 'Cross-platform mobile development. Navigation, state management, and native modules.',
+                  link: 'https://reactnative.dev',
+                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg'
+                }
+              ].map((skill, index) => (
+                <div key={index} className="relative group">
+                  <LinkPreview 
+                    url={skill.link} 
+                    className="block h-full"
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      whileHover={{ y: -5 }}
+                      className={`h-full rounded-2xl border p-4 transition-all duration-300 hover:shadow-xl ${
+                        isDark 
+                          ? 'bg-gray-900 border-gray-800 hover:border-blue-500/50' 
+                          : 'bg-white border-gray-200 hover:border-blue-300/50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <img 
+                          src={skill.icon} 
+                          alt={`${skill.title} logo`}
+                          className="w-6 h-6 object-contain flex-shrink-0"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                        <h4 className={`font-bold text-sm ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {skill.title}
+                        </h4>
+                      </div>
+                      
+                      <p className={`text-xs leading-relaxed line-clamp-3 ${
+                        isDark ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
+                        {skill.description}
+                      </p>
+                    </motion.div>
+                  </LinkPreview>
+                </div>
               ))}
-              <span className={`px-3 py-1 rounded-full text-sm font-medium font-sans ${
-                isDark ? 'text-blue-400' : 'text-blue-600'
-              }`}>
-                +{skills.length - 8} more
-              </span>
             </div>
             
-            <p className={`text-base font-sans group-hover:text-blue-500 transition-colors duration-300 ${
-              isDark ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              Explore my complete tech stack and proficiency levels →
-            </p>
+            {/* View more button */}
+            <div className="text-center">
+              <motion.a
+                href="/skills"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`inline-flex items-center gap-2 px-6 py-2 rounded-xl font-medium transition-all duration-200 ${
+                  isDark 
+                    ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400' 
+                    : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
+                }`}
+              >
+                <span>View all skills</span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </motion.a>
+            </div>
           </div>
         </motion.div>
 
-        {/* Gym Stats CTA */}
+        {/* Projects CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
-          className={`relative p-8 rounded-2xl border overflow-hidden cursor-pointer group mt-8 ${
-            isDark 
-              ? 'bg-gradient-to-br from-red-900/30 to-orange-900/30 border-red-500/30 hover:border-red-400/50' 
-              : 'bg-gradient-to-br from-red-50 to-orange-50 border-red-200 hover:border-red-300'
-          }`}
-          onClick={() => window.location.href = '/gym'}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          className="mt-12"
         >
-          {/* Background gradient animation */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/10 to-transparent -skew-x-12"
-            animate={{
-              x: ['-100%', '200%']
-            }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              repeatDelay: 4,
-              ease: "easeInOut"
-            }}
-          />
-          
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-6">
-              <TextGenerateEffect 
-                words="💪 Gym Stats"
-                className={`text-2xl font-bold font-sans ${
-                  isDark ? 'text-white' : 'text-gray-900'
+          <div className="relative">
+            {/* Section Header */}
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className={`p-3 rounded-xl ${isDark ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                  <FolderOpen className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                </div>
+                <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  Featured Projects
+                </h3>
+              </div>
+              <p className={`max-w-2xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                Check out some of my recent projects. Visit my projects page to see my complete portfolio.
+              </p>
+            </div>
+            
+            {/* Projects Grid with HoverEffect */}
+            <HoverEffect 
+              items={[
+                {
+                  title: 'UT Marketplace',
+                  description: 'A full-stack marketplace application for UT students to buy and sell items safely within the campus community.',
+                  category: 'Full-Stack',
+                  image: '/api/placeholder/400/300',
+                  technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS'],
+                  liveUrl: 'https://ut-marketplace.vercel.app',
+                  githubUrl: 'https://github.com/austin616/ut-marketplace',
+                  icon: '/api/placeholder/32/32'
+                },
+                {
+                  title: 'UT Dining App',
+                  description: 'React Native app helping UT students discover dining options, view menus, and track nutritional information.',
+                  category: 'Mobile',
+                  image: '/api/placeholder/400/300',
+                  technologies: ['React Native', 'Expo', 'TypeScript', 'NativeWind'],
+                  liveUrl: 'https://github.com/austin616/UT-Dining',
+                  githubUrl: 'https://github.com/austin616/UT-Dining',
+                  icon: '/api/placeholder/32/32'
+                }
+              ]}
+              className="mb-8"
+            />
+            
+            {/* View more button */}
+            <div className="text-center">
+              <motion.a
+                href="/projects"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`inline-flex items-center gap-2 px-6 py-2 rounded-xl font-medium transition-all duration-200 ${
+                  isDark 
+                    ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400' 
+                    : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
                 }`}
-                duration={0.4}
-                isDark={isDark}
-              />
-              <motion.div
-                className={`p-2 rounded-full ${
-                  isDark ? 'bg-red-500/20' : 'bg-red-100'
-                }`}
-                whileHover={{ rotate: [0, -10, 10, 0] }}
-                transition={{ duration: 0.6 }}
               >
-                <Dumbbell className={`w-6 h-6 ${isDark ? 'text-red-400' : 'text-red-600'}`} />
-              </motion.div>
+                <span>View all projects</span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </motion.a>
             </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className={`text-center p-3 rounded-lg ${
-                isDark ? 'bg-red-500/10' : 'bg-red-50'
-              }`}>
-                <div className={`text-lg font-bold ${isDark ? 'text-red-400' : 'text-red-600'}`}>
-                  315 lbs
-                </div>
-                <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Bench PR
-                </div>
-              </div>
-              <div className={`text-center p-3 rounded-lg ${
-                isDark ? 'bg-red-500/10' : 'bg-red-50'
-              }`}>
-                <div className={`text-lg font-bold ${isDark ? 'text-red-400' : 'text-red-600'}`}>
-                  425 lbs
-                </div>
-                <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Squat PR
-                </div>
-              </div>
-              <div className={`text-center p-3 rounded-lg ${
-                isDark ? 'bg-red-500/10' : 'bg-red-50'
-              }`}>
-                <div className={`text-lg font-bold ${isDark ? 'text-red-400' : 'text-red-600'}`}>
-                  455 lbs
-                </div>
-                <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Deadlift PR
-                </div>
-              </div>
-              <div className={`text-center p-3 rounded-lg ${
-                isDark ? 'bg-red-500/10' : 'bg-red-50'
-              }`}>
-                <div className={`text-lg font-bold ${isDark ? 'text-red-400' : 'text-red-600'}`}>
-                  4+ years
-                </div>
-                <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Training
-                </div>
-              </div>
-            </div>
-            
-            <p className={`text-base font-sans group-hover:text-red-500 transition-colors duration-300 ${
-              isDark ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              View my complete lifting stats and fitness journey →
-            </p>
           </div>
+        </motion.div>
+        
+        {/* Gym CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          viewport={{ once: true }}
+          className="mt-12 mb-8"
+        >
+          <motion.div 
+            className={`rounded-2xl p-8 cursor-pointer group ${
+              isDark 
+                ? 'bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-800 hover:border-blue-500/30 shadow-lg' 
+                : 'bg-gradient-to-r from-white to-gray-50 border border-gray-200 hover:border-blue-300/50 shadow-md'
+            }`}
+            onClick={() => window.location.href = '/gym'}
+            whileHover={{ 
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {/* Blue accent glow */}
+            <div 
+              className={`
+                absolute -right-20 -top-20 w-40 h-40 rounded-full blur-3xl opacity-10
+                ${isDark ? 'bg-blue-500' : 'bg-blue-400'}
+              `}
+            />
+            
+            <div className="relative z-10 flex items-center justify-between">
+              <div className="flex items-center gap-5">
+                <div className={`p-4 rounded-xl ${isDark ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                  <Dumbbell className={`w-8 h-8 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                </div>
+                <div>
+                  <h3 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    My Fitness Journey
+                  </h3>
+                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Check out my workout routines and fitness progress
+                  </p>
+                </div>
+              </div>
+              
+              <div className={`flex items-center justify-center p-3 rounded-full ${
+                isDark ? 'bg-blue-500/20' : 'bg-blue-100'
+              }`}>
+                <div className="relative">
+                  <div className={`absolute inset-0 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity ${
+                    isDark ? 'bg-blue-500/40' : 'bg-blue-400/40'
+                  }`} />
+                  <motion.div
+                    initial={{ x: 0, opacity: 0.98 }}
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+                    className={`relative transition-transform duration-300 group-hover:translate-x-2 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}
+                  >
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      width="24" 
+                      height="24" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>

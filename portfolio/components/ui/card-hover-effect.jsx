@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { LinkPreview } from "./link-preview";
+import { useTheme } from "../../components/ThemeProvider";
 
 import { useState } from "react";
 
@@ -9,6 +10,7 @@ export const HoverEffect = ({
   className
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState(null);
+  const { isDark } = useTheme();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -71,7 +73,11 @@ export const HoverEffect = ({
             <AnimatePresence>
               {hoveredIndex === idx && (
                 <motion.span
-                  className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                  className={`absolute inset-0 h-full w-full block rounded-3xl ${
+                    isDark 
+                      ? "bg-gray-800/80" 
+                      : "bg-gray-100/80"
+                  }`}
                   layoutId="hoverBackground"
                   initial={{ opacity: 0 }}
                   animate={{
@@ -116,12 +122,20 @@ export const HoverEffect = ({
                         e.target.style.display = 'none';
                       }}
                     />
-                    <span className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
+                    <span className={`font-bold transition-colors cursor-pointer ${
+                      isDark 
+                        ? "text-white hover:text-blue-400" 
+                        : "text-gray-900 hover:text-blue-600"
+                    }`}>
                       {item.title}
                     </span>
                   </div>
                   {item.category && (
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 flex-shrink-0">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
+                      isDark 
+                        ? "bg-blue-900/30 text-blue-300" 
+                        : "bg-blue-100 text-blue-700"
+                    }`}>
                       {item.category}
                     </span>
                   )}
@@ -135,13 +149,19 @@ export const HoverEffect = ({
                   {item.technologies.slice(0, 4).map((tech, index) => (
                     <span
                       key={index}
-                      className="px-2 py-1 rounded text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
+                      className={`px-2 py-1 rounded text-xs font-medium ${
+                        isDark 
+                          ? "bg-gray-800 text-gray-300" 
+                          : "bg-gray-100 text-gray-700"
+                      }`}
                     >
                       {tech}
                     </span>
                   ))}
                   {item.technologies.length > 4 && (
-                    <span className="px-2 py-1 rounded text-xs font-medium text-neutral-500 dark:text-neutral-500">
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${
+                      isDark ? "text-gray-500" : "text-gray-500"
+                    }`}>
                       +{item.technologies.length - 4} more
                     </span>
                   )}
@@ -156,7 +176,11 @@ export const HoverEffect = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-blue-600 hover:text-blue-700 text-sm"
+                    className={`text-sm ${
+                      isDark 
+                        ? "text-blue-400 hover:text-blue-300" 
+                        : "text-blue-600 hover:text-blue-700"
+                    }`}
                   >
                     {item.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                   </a>
@@ -168,7 +192,11 @@ export const HoverEffect = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm"
+                    className={`text-sm ${
+                      isDark 
+                        ? "text-gray-400 hover:text-gray-300" 
+                        : "text-gray-600 hover:text-gray-800"
+                    }`}
                   >
                     View Code
                   </a>
@@ -187,10 +215,15 @@ export const Card = ({
   className,
   children
 }) => {
+  const { isDark } = useTheme();
+  
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl h-full w-full p-4 overflow-hidden relative z-20",
+        isDark 
+          ? "bg-gray-900 border border-gray-800 group-hover:border-gray-700" 
+          : "bg-white border border-gray-200 group-hover:border-gray-300",
         className
       )}>
       <div className="relative z-50">
@@ -203,8 +236,14 @@ export const CardTitle = ({
   className,
   children
 }) => {
+  const { isDark } = useTheme();
+  
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    <h4 className={cn(
+      "font-bold tracking-wide mt-4", 
+      isDark ? "text-white" : "text-gray-900",
+      className
+    )}>
       {children}
     </h4>
   );
@@ -213,9 +252,15 @@ export const CardDescription = ({
   className,
   children
 }) => {
+  const { isDark } = useTheme();
+  
   return (
     <p
-      className={cn("mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm", className)}>
+      className={cn(
+        "mt-8 tracking-wide leading-relaxed text-sm", 
+        isDark ? "text-gray-300" : "text-gray-600",
+        className
+      )}>
       {children}
     </p>
   );

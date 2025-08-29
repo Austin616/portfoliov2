@@ -4,19 +4,20 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
-export const FloatingDock = ({
+export const VerticalDock = ({
   items,
   className,
-  mobileClassName,
   dockClassName,
   activeIndex: externalActiveIndex,
   isDark,
   showAfterHero = false,
+  position = "right", // "left" or "right"
 }) => {
   const [internalActiveIndex, setInternalActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!showAfterHero);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [heroHeight, setHeroHeight] = useState(0);
+  const [currentSection, setCurrentSection] = useState("hero");
   
   const activeIndex = externalActiveIndex !== undefined ? externalActiveIndex : internalActiveIndex;
   
@@ -31,25 +32,64 @@ export const FloatingDock = ({
     
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const scrollPosition = currentScrollY + (viewportHeight / 2);
       
       // Handle visibility based on scroll direction and hero section
       if (showAfterHero) {
         // Only show after scrolling past hero section
         if (currentScrollY > heroHeight * 0.7) {
-          if (currentScrollY > lastScrollY) {
-            setIsVisible(false);
-          } else {
-            setIsVisible(true);
-          }
+          setIsVisible(true);
         } else {
           setIsVisible(false);
         }
       } else {
-        // Default behavior - hide when scrolling down, show when scrolling up
-        if (currentScrollY > lastScrollY) {
-          setIsVisible(false);
-        } else {
-          setIsVisible(true);
+        // Default behavior - always visible
+        setIsVisible(true);
+      }
+      
+      // Detect current section
+      const sections = [
+        { id: "hero", element: document.querySelector('[data-section="hero"]') },
+        { id: "experience", element: document.querySelector('#experience') },
+        { id: "about", element: document.querySelector('#about') },
+        { id: "contact", element: document.querySelector('#contact') }
+      ];
+      
+      // Find the current section based on scroll position
+      let currentSectionId = "hero";
+      
+      for (const section of sections) {
+        if (section.element) {
+          const sectionTop = section.element.offsetTop;
+          const sectionHeight = section.element.offsetHeight;
+          
+          // Check if we're in this section
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSectionId = section.id;
+            break;
+          }
+          
+          // If we're past this section but haven't found a match yet, update
+          if (scrollPosition >= sectionTop) {
+            currentSectionId = section.id;
+          }
+        }
+      }
+      
+      setCurrentSection(currentSectionId);
+      
+      // Update active index based on current section
+      if (items && items.length) {
+        const sectionToIndexMap = {
+          "hero": 0,
+          "experience": 1,
+          "about": 2,
+          "contact": 3
+        };
+        
+        if (sectionToIndexMap[currentSectionId] !== undefined) {
+          setInternalActiveIndex(sectionToIndexMap[currentSectionId]);
         }
       }
       
@@ -57,25 +97,28 @@ export const FloatingDock = ({
     };
     
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+    
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, showAfterHero, heroHeight]);
+  }, [lastScrollY, showAfterHero, heroHeight, items]);
 
   return (
     <div
       className={cn(
-        "fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transform",
+        "fixed top-1/2 -translate-y-1/2 z-50",
+        position === "left" ? "left-4" : "right-4",
         className
       )}
     >
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ x: position === "left" ? -100 : 100, opacity: 0 }}
         animate={{ 
-          y: isVisible ? 0 : 100, 
+          x: isVisible ? 0 : (position === "left" ? -100 : 100), 
           opacity: isVisible ? 1 : 0 
         }}
         transition={{ duration: 0.5, type: "spring", stiffness: 260, damping: 20 }}
         className={cn(
-          "flex h-16 items-center justify-center gap-2 rounded-full px-4 backdrop-blur-md",
+          "flex flex-col items-center justify-center gap-4 rounded-full py-4 px-3 backdrop-blur-md",
           isDark 
             ? "border border-gray-700/50 bg-gray-900/80" 
             : "border border-gray-200 bg-white/90 shadow-lg",
@@ -103,7 +146,7 @@ export const FloatingDock = ({
             }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className={`absolute -top-10 rounded-md px-2 py-1 text-xs opacity-0 transition-opacity group-hover:opacity-100 ${
+            <span className={`absolute ${position === "left" ? "left-12" : "right-12"} rounded-md px-2 py-1 text-xs opacity-0 transition-opacity group-hover:opacity-100 whitespace-nowrap ${
               isDark 
                 ? 'bg-gray-800 text-white border border-gray-700' 
                 : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
