@@ -8,6 +8,7 @@ import { HoverEffect } from '../../components/ui/card-hover-effect';
 import { FloatingDock } from '../../components/ui/floating-dock';
 import { Dumbbell, Target, TrendingUp, Award, Calendar, Zap, Trophy, Medal, BarChart3, Activity, Star, Flame, Users } from 'lucide-react';
 import { gymStats, fitnessGoals, achievements, workoutSplit, workoutMedia } from '../../data/gym';
+import { Compare } from '../../components/ui/compare';
 
 const GymPage = () => {
   const { isDark, mounted } = useTheme();
@@ -524,6 +525,68 @@ const GymPage = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                 >
+                  {/* Before/After Transformation */}
+                  <div className="text-center mb-16">
+                    <TextGenerateEffect 
+                      words="Transformation Journey"
+                      className={`text-2xl md:text-3xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}
+                      duration={0.4}
+                      isDark={isDark}
+                    />
+                    <TextGenerateEffect 
+                      words="4+ years of consistent training, proper nutrition, and dedication to the process."
+                      className={`text-lg mb-8 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
+                      duration={0.025}
+                      isDark={isDark}
+                    />
+                    
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.2 }}
+                      viewport={{ once: true }}
+                      className="flex justify-center"
+                    >
+                      <div className={`p-4 border rounded-3xl ${
+                        isDark 
+                          ? 'bg-gray-900/50 border-gray-800' 
+                          : 'bg-gray-100 border-gray-200'
+                      } backdrop-blur-sm`}>
+                        <Compare
+                          firstImage="/images/gym/before.jpg"
+                          secondImage="/images/gym/after.jpg"
+                          firstImageClassName="object-cover object-center"
+                          secondImageClassname="object-cover object-center"
+                          className="h-[300px] w-[250px] md:h-[500px] md:w-[400px] rounded-2xl"
+                          slideMode="hover"
+                        />
+                      </div>
+                    </motion.div>
+                    
+                    <div className="grid grid-cols-2 gap-6 mt-8 max-w-md mx-auto">
+                      <div className={`text-center p-4 rounded-xl ${
+                        isDark ? 'bg-gray-800/50' : 'bg-gray-50'
+                      }`}>
+                        <h4 className={`font-bold text-lg mb-1 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                          Before
+                        </h4>
+                        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                          2020 - Starting my journey
+                        </p>
+                      </div>
+                      <div className={`text-center p-4 rounded-xl ${
+                        isDark ? 'bg-blue-500/20 border border-blue-500/30' : 'bg-blue-50 border border-blue-200'
+                      }`}>
+                        <h4 className={`font-bold text-lg mb-1 ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>
+                          After
+                        </h4>
+                        <p className={`text-sm ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                          2024 - 4+ years later
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="text-center mb-12">
                     <TextGenerateEffect 
                       words="Workout Gallery"
