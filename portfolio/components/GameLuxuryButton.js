@@ -52,10 +52,16 @@ const GameLuxuryButton = ({
   const handleClick = () => {
     if (href) {
       if (href.startsWith('#')) {
-        // Smooth scroll to section
-        const targetElement = document.getElementById(href.substring(1));
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
+        // Check if we're on the home page
+        if (window.location.pathname !== '/') {
+          // Navigate to home page first, then scroll
+          window.location.href = '/' + href;
+        } else {
+          // Already on home page, just scroll normally
+          const targetElement = document.getElementById(href.substring(1));
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       } else if (href.startsWith('http')) {
         // External link - open in new tab

@@ -12,7 +12,7 @@ import { gymStats, fitnessGoals, achievements, workoutSplit, workoutMedia } from
 const GymPage = () => {
   const { isDark, mounted } = useTheme();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [selectedCategory, setSelectedCategory] = useState('stats');
+  const [selectedCategory, setSelectedCategory] = useState('overview');
 
   useEffect(() => {
     let timeoutId = null;

@@ -257,8 +257,8 @@ const Header = () => {
                       pathname === link.href
                         ? isDark ? 'text-blue-400' : 'text-blue-600'
                         : isDark 
-                          ? 'text-gray-400 group-hover:text-blue-400' 
-                          : 'text-gray-500 group-hover:text-blue-600'
+                          ? 'text-gray-400 group-hover:!text-blue-400' 
+                          : 'text-gray-500 group-hover:!text-blue-600'
                     }`}
                     animate={{
                       rotate: 0,
@@ -282,8 +282,8 @@ const Header = () => {
                       pathname === link.href
                         ? isDark ? 'text-blue-300' : 'text-blue-600'
                         : isDark 
-                          ? 'text-gray-300 group-hover:text-blue-300' 
-                          : 'text-gray-600 group-hover:text-blue-600'
+                          ? 'text-gray-300 group-hover:!text-blue-300' 
+                          : 'text-gray-600 group-hover:!text-blue-600'
                     }`}
                   >
                     {link.label}

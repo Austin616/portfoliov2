@@ -1,3 +1,5 @@
+import { Database, Smartphone, Globe, Palette } from 'lucide-react';
+
 export const projectsData = [
   {
     id: 1,
@@ -135,6 +137,7 @@ export const projectCategories = [
     name: 'Full-Stack Applications',
     description: 'End-to-end solutions with frontend, backend, and database integration',
     color: 'blue',
+    icon: Database,
     count: projectsData.filter(p => p.category === 'Full-Stack').length
   },
   {
@@ -142,6 +145,7 @@ export const projectCategories = [
     name: 'Mobile Applications',
     description: 'Cross-platform and native mobile apps for iOS and Android',
     color: 'green',
+    icon: Smartphone,
     count: projectsData.filter(p => p.category === 'Mobile').length
   },
   {
@@ -149,6 +153,7 @@ export const projectCategories = [
     name: 'Web Applications',
     description: 'Interactive web platforms with modern frontend technologies',
     color: 'purple',
+    icon: Globe,
     count: projectsData.filter(p => p.category === 'Web App').length
   },
   {
@@ -156,6 +161,7 @@ export const projectCategories = [
     name: 'Portfolio Projects',
     description: 'Showcase websites and personal branding projects',
     color: 'pink',
+    icon: Palette,
     count: projectsData.filter(p => p.category === 'Portfolio').length
   }
 ];
