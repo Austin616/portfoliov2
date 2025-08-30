@@ -340,7 +340,7 @@ export function About() {
                   title: 'UT Marketplace',
                   description: 'A full-stack marketplace application for UT students to buy and sell items safely within the campus community.',
                   category: 'Full-Stack',
-                  image: '/api/placeholder/400/300',
+                  image: '/images/projects/utmp.png',
                   technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS'],
                   liveUrl: 'https://ut-marketplace.vercel.app',
                   githubUrl: 'https://github.com/austin616/ut-marketplace',
@@ -350,9 +350,9 @@ export function About() {
                   title: 'UT Dining App',
                   description: 'React Native app helping UT students discover dining options, view menus, and track nutritional information.',
                   category: 'Mobile',
-                  image: '/api/placeholder/400/300',
+                  image: '/images/projects/utdining.png',
                   technologies: ['React Native', 'Expo', 'TypeScript', 'NativeWind'],
-                  liveUrl: 'https://github.com/austin616/UT-Dining',
+                  liveUrl: 'https://apps.apple.com/us/app/ut-dining-ut-austin-food-app/id6743042002',
                   githubUrl: 'https://github.com/austin616/UT-Dining',
                   icon: '/api/placeholder/32/32'
                 }
