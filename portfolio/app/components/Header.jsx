@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Menu, X, ChevronRight, User, Home, Code, Briefcase, Github, Linkedin, Dumbbell, FolderOpen } from 'lucide-react';
+import { Menu, X, ChevronRight, User, Home, Code, Briefcase, Github, Linkedin, Dumbbell, FolderOpen, Palette } from 'lucide-react';
 
 import { useTheme } from '../../components/ThemeProvider';
 import ThemeToggle from '../../components/ThemeToggle';
