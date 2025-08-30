@@ -17,12 +17,12 @@ const ThemeToggle = () => {
     <motion.div
       whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.95 }}
-      className="flex items-center justify-center"
+      className="flex items-center justify-center cursor-pointer"
     >
       <button
         onClick={toggleTheme}
         className={`
-          relative overflow-hidden inline-flex items-center justify-center rounded-xl border h-10 w-10 transition-all duration-200 ${
+          relative overflow-hidden inline-flex items-center justify-center rounded-xl border h-10 w-10 transition-all duration-200 cursor-pointer ${
             isDark 
               ? 'border-transparent hover:border-blue-500/50 hover:bg-blue-500/10 text-gray-300 hover:text-blue-400' 
               : 'border-transparent hover:border-blue-500/50 hover:bg-blue-500/10 text-gray-700 hover:text-blue-600'

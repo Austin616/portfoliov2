@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../../components/ThemeProvider';
 import { ArrowLeft, ExternalLink, Github, Calendar, Users, Star, Code, Zap } from 'lucide-react';
-import { projectsData } from '../../../data/projects';
+import { projectsData } from '../../../data/projects-updated';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Breadcrumb from '../../../components/Breadcrumb';
 
 const ProjectDetailPage = ({ params }) => {
   const { isDark, mounted } = useTheme();
@@ -64,31 +65,16 @@ const ProjectDetailPage = ({ params }) => {
         }}
       />
       
-      {/* Back Button */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-        className="fixed top-8 left-8 z-50"
-      >
-        <Link href="/projects">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
-              isDark 
-                ? 'bg-gray-800/80 text-gray-300 hover:bg-gray-700/80 border border-gray-700' 
-                : 'bg-white/80 text-gray-700 hover:bg-gray-50/80 border border-gray-200'
-            } backdrop-blur-sm`}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Projects
-          </motion.button>
-        </Link>
-      </motion.div>
+      {/* Breadcrumb Navigation */}
+      <Breadcrumb 
+        items={[
+          { label: 'Projects', href: '/projects' },
+          { label: project?.title || 'Project' }
+        ]} 
+      />
 
       {/* Project Header */}
-      <section className="pt-32 pb-16 px-4 md:px-8 lg:px-10">
+      <section className="pt-12 pb-16 px-4 md:px-8 lg:px-10">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -183,20 +169,13 @@ const ProjectDetailPage = ({ params }) => {
               isDark 
                 ? 'bg-gray-800 border-gray-700' 
                 : 'bg-gray-100 border-gray-200'
-            } flex items-center justify-center`}
+            }`}
           >
-            <div className={`p-8 rounded-xl ${
-              isDark ? 'bg-gray-700/50' : 'bg-gray-50/50'
-            }`}>
-              <Code className={`w-24 h-24 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-            </div>
-            
-            {/* Overlay with project info */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end">
-              <div className="p-6 text-white">
-                <p className="text-lg font-medium">Project Screenshot Coming Soon</p>
-              </div>
-            </div>
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </section>

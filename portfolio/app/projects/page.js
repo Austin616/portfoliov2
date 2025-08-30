@@ -8,6 +8,7 @@ import { HoverEffect } from '../../components/ui/card-hover-effect';
 import { useRouter } from 'next/navigation';
 import { FolderOpen, ExternalLink, Github, Calendar, Code, Users, Star, Globe, Smartphone, Layout, Palette } from 'lucide-react';
 import { FloatingDock } from '../../components/ui/floating-dock';
+import { projectsData, projectCategories, projectsPageData } from '../../data/projects-updated';
 
 const ProjectsPage = () => {
   const { isDark, mounted } = useTheme();
@@ -23,126 +24,13 @@ const ProjectsPage = () => {
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, []);
 
-  // Sample projects data - you can replace this with real projects
-  const projects = [
-    {
-      id: 1,
-      title: 'UT Marketplace',
-      description: 'A full-stack marketplace application for UT students to buy and sell items safely within the campus community.',
-      technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Stripe', 'Socket.io'],
-      category: 'Full-Stack',
-      status: 'Live',
-      year: '2024',
-      image: '/api/placeholder/400/300',
-      github: 'https://github.com/austin616/ut-marketplace',
-      live: 'https://ut-marketplace.vercel.app',
-      features: ['User Authentication', 'Real-time Chat', 'Payment Integration', 'Admin Dashboard']
-    },
-    {
-      id: 2,
-      title: 'UT Dining App',
-      description: 'React Native app helping UT students discover dining options, view menus, and track nutritional information.',
-      technologies: ['React Native', 'Expo', 'TypeScript', 'NativeWind'],
-      category: 'Mobile',
-      status: 'In Progress',
-      year: '2024',
-      image: '/api/placeholder/400/300',
-      github: 'https://github.com/austin616/UT-Dining',
-      live: null,
-      features: ['Menu Tracking', 'Nutrition Info', 'Location Services', 'Offline Support']
-    },
-    {
-      id: 3,
-      title: 'EcoNest',
-      description: 'Sustainable living platform connecting eco-conscious individuals through challenges, forums, and resource sharing.',
-      technologies: ['Next.js', 'Firebase', 'Tailwind CSS', 'Framer Motion', 'Node.js', 'MongoDB'],
-      category: 'Web App',
-      status: 'Live',
-      year: '2023',
-      image: '/api/placeholder/400/300',
-      github: 'https://github.com/austin616/econest',
-      live: 'https://econest.netlify.app',
-      features: ['Community Forums', 'Eco Challenges', 'Resource Library', 'Progress Tracking']
-    },
-    {
-      id: 4,
-      title: 'HookEm Fitness',
-      description: 'Fitness tracking app specifically designed for UT students with campus gym integration and workout planning.',
-      technologies: ['React Native', 'Firebase', 'JavaScript', 'Expo'],
-      category: 'Mobile',
-      status: 'Completed',
-      year: '2023',
-      image: '/api/placeholder/400/300',
-      github: 'https://github.com/austin616/HookEm-Fitness',
-      live: null,
-      features: ['Workout Planning', 'Progress Tracking', 'Social Features', 'Gym Integration']
-    },
-    {
-      id: 5,
-      title: 'Exercise Catalog',
-      description: 'Comprehensive exercise database with detailed instructions, muscle group targeting, and workout routines.',
-      technologies: ['React', 'Python', 'SQLite', 'Material-UI'],
-      category: 'Web App',
-      status: 'Completed',
-      year: '2023',
-      image: '/api/placeholder/400/300',
-      github: 'https://github.com/austin616/exercise-catalog',
-      live: '#',
-      features: ['Exercise Database', 'Muscle Group Filter', 'Routine Builder', 'Progress Analytics']
-    },
-    {
-      id: 6,
-      title: 'Portfolio v2',
-      description: 'Modern portfolio website showcasing projects, skills, and fitness journey with dark/light theme support.',
-      technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS', 'Lucide Icons'],
-      category: 'Portfolio',
-      status: 'Live',
-      year: '2024',
-      image: '/api/placeholder/400/300',
-      github: 'https://github.com/austin616/portfolio-v2',
-      live: 'https://austintran.dev',
-      features: ['Responsive Design', 'Dark Mode', 'Smooth Animations', 'Modern UI']
-    }
-  ];
-
-  // Project categories with descriptions and colors
-  const projectCategories = [
-    {
-      id: 'Full-Stack',
-      name: 'Full-Stack Applications',
-      description: 'End-to-end solutions with frontend, backend, and database integration',
-      icon: Code,
-      color: 'blue'
-    },
-    {
-      id: 'Mobile',
-      name: 'Mobile Applications',
-      description: 'Cross-platform and native mobile apps for iOS and Android',
-      icon: Smartphone,
-      color: 'green'
-    },
-    {
-      id: 'Web App',
-      name: 'Web Applications',
-      description: 'Interactive web platforms with modern frontend technologies',
-      icon: Globe,
-      color: 'purple'
-    },
-    {
-      id: 'Portfolio',
-      name: 'Portfolio Projects',
-      description: 'Showcase websites and personal branding projects',
-      icon: Palette,
-      color: 'pink'
-    }
-  ];
   
   const categories = ['All', ...projectCategories.map(cat => cat.id)];
   const [selectedCategory, setSelectedCategory] = React.useState('All');
 
   const filteredProjects = selectedCategory === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+    ? projectsData 
+    : projectsData.filter(project => project.category === selectedCategory);
 
   // Transform projects data for HoverEffect component
   const hoverEffectItems = filteredProjects.map(project => ({
@@ -216,22 +104,22 @@ const ProjectsPage = () => {
             className="text-center mb-16"
           >
             <TextGenerateEffect 
-              words="Project Categories"
+              words={projectsPageData.title}
               className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
                 isDark ? 'text-white' : 'text-gray-900'
               }`}
               duration={0.5}
               isDark={isDark}
-              keywords={['Project', 'Categories']}
+              keywords={projectsPageData.titleKeywords}
               isTitle={true}
             />
             <div className="max-w-3xl mx-auto">
               <TextGenerateEffect 
-                words="A diverse portfolio showcasing full-stack web applications and mobile solutions. Each project demonstrates different technologies and problem-solving approaches."
+                words={projectsPageData.description}
                 className="text-lg md:text-xl leading-relaxed font-sans"
                 duration={0.3}
                 isDark={isDark}
-                keywords={['portfolio', 'full-stack', 'web applications', 'mobile', 'technologies', 'problem-solving']}
+                keywords={projectsPageData.descriptionKeywords}
               />
             </div>
           </motion.div>
@@ -381,10 +269,10 @@ const ProjectsPage = () => {
             <h2 className={`text-2xl md:text-3xl font-bold mb-4 ${
               isDark ? 'text-white' : 'text-gray-900'
             }`}>
-              Let&apos;s Build Something Together
+              {projectsPageData.ctaTitle}
             </h2>
             <p className={`text-lg mb-8 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-              Interested in collaborating or have a project in mind? I&apos;d love to hear from you.
+              {projectsPageData.ctaDescription}
             </p>
             <motion.a
               href="/#contact"

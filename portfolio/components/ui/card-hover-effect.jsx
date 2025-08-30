@@ -91,27 +91,30 @@ export const HoverEffect = ({
               )}
             </AnimatePresence>
             <Card>
-              {/* Project Image */}
-              {item.image && (
-                <div className="w-full h-48 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-blue-500/10 to-purple-500/10">
-                  <img 
-                    src={item.image} 
-                    alt={`${item.title} preview`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.innerHTML = `
-                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500/10 to-purple-500/10">
-                          <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                          </svg>
-                        </div>
-                      `;
-                    }}
-                  />
-                </div>
-              )}
-              <CardTitle>
+              <div className="flex flex-col h-full">
+                {/* Top content section */}
+                <div className="flex-1">
+                  {/* Project Image */}
+                  {item.image && (
+                    <div className="w-full h-48 mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-blue-500/10 to-purple-500/10">
+                      <img 
+                        src={item.image} 
+                        alt={`${item.title} preview`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = `
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500/10 to-purple-500/10">
+                              <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                              </svg>
+                            </div>
+                          `;
+                        }}
+                      />
+                    </div>
+                  )}
+                  <CardTitle>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <img 
@@ -141,12 +144,17 @@ export const HoverEffect = ({
                   )}
                 </div>
               </CardTitle>
-              <CardDescription>{item.description}</CardDescription>
+              <CardDescription>
+                {item.description.length > 120 
+                  ? `${item.description.slice(0, 120)}...` 
+                  : item.description
+                }
+              </CardDescription>
               
               {/* Technologies */}
               {item.technologies && (
                 <div className="flex flex-wrap gap-1 mt-3">
-                  {item.technologies.slice(0, 4).map((tech, index) => (
+                  {item.technologies.slice(0, 3).map((tech, index) => (
                     <span
                       key={index}
                       className={`px-2 py-1 rounded text-xs font-medium ${
@@ -158,18 +166,20 @@ export const HoverEffect = ({
                       {tech}
                     </span>
                   ))}
-                  {item.technologies.length > 4 && (
+                  {item.technologies.length > 3 && (
                     <span className={`px-2 py-1 rounded text-xs font-medium ${
                       isDark ? "text-gray-500" : "text-gray-500"
                     }`}>
-                      +{item.technologies.length - 4} more
+                      +{item.technologies.length - 3} more
                     </span>
                   )}
                 </div>
               )}
-              
-              {/* Simple Links */}
-              <div className="flex gap-4 mt-4">
+                </div>
+                
+                {/* Bottom links section - always at bottom */}
+                <div className="mt-auto pt-4">
+                  <div className="flex gap-4">
                 {item.liveUrl && item.liveUrl !== '#' && (
                   <a
                     href={item.liveUrl}
@@ -182,7 +192,10 @@ export const HoverEffect = ({
                         : "text-blue-600 hover:text-blue-700"
                     }`}
                   >
-                    {item.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                    {(() => {
+                      const cleanUrl = item.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+                      return cleanUrl.length > 30 ? `${cleanUrl.slice(0, 30)}...` : cleanUrl;
+                    })()}
                   </a>
                 )}
                 
@@ -200,7 +213,9 @@ export const HoverEffect = ({
                   >
                     View Code
                   </a>
-                )}
+                    )}
+                  </div>
+                </div>
               </div>
             </Card>
           </div>

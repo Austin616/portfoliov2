@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-import { Code, Dumbbell, Coffee, Music, MapPin, Calendar, FolderOpen } from "lucide-react";
+import { Code, Dumbbell, Coffee, Music, MapPin, FolderOpen, Laptop, GraduationCap, Ruler, User } from "lucide-react";
 import Image from "next/image";
 import hero from "../../public/images/hero.jpg";
 import { LinkPreview } from "../../components/ui/link-preview";
@@ -15,14 +15,9 @@ export function About() {
   
   const interests = [
     { icon: Code, label: "Coding", color: "blue" },
-    { icon: Dumbbell, label: "Gym", color: "red" },
-    { icon: Coffee, label: "Coffee", color: "amber" },
+    { icon: Dumbbell, label: "Gym", color: "emerald" },
+    { icon: Coffee, label: "Coffee", color: "yellow" },
     { icon: Music, label: "Music", color: "purple" },
-  ];
-
-  const skills = [
-    "JavaScript", "TypeScript", "React", "Next.js", "React Native", 
-    "Node.js", "Python", "Java", "PostgreSQL", "MongoDB", "Git", "AWS"
   ];
 
   return (
@@ -105,15 +100,33 @@ export function About() {
             />
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <MapPin className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                <User className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
                 <span className={`font-sans ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Austin, Texas
+                  Austin Tran
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Calendar className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                <Ruler className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
                 <span className={`font-sans ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Graduating May 2024
+                  6' 7" <span className={`font-sans ${isDark ? 'text-xs text-gray-400' : 'text-xs text-gray-600'}`}>(jk 5'11 lol")</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                <span className={`font-sans ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                  University of Texas at Austin
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <GraduationCap className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                <span className={`font-sans ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                  Graduating May 2026
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Laptop className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                <span className={`font-sans ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                  Computer Science with a minor in Business
                 </span>
               </div>
             </div>

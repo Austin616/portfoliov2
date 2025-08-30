@@ -24,6 +24,7 @@ import {
   Users,
   BarChart3
 } from 'lucide-react';
+import { skillCategories, skillsPageData, getSkillsStats } from '../../data/skills-categories';
 import GameLuxuryButton from '../../components/GameLuxuryButton';
 import { FloatingDock } from '../../components/ui/floating-dock';
 
@@ -43,255 +44,6 @@ const Skills = () => {
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, []);
 
-  // Enhanced skills data for HoverEffect component
-  const skillCategories = [
-    {
-      id: 'frontend',
-      name: 'Frontend Development',
-      description: 'Modern web development with React ecosystem and responsive design',
-      icon: Globe,
-      color: 'blue',
-      items: [
-        {
-          title: 'React & Next.js',
-          description: 'Advanced React patterns, SSR, and modern hooks. Built 10+ production apps with Next.js 13+ features.',
-          level: 95,
-          experience: '3+ years',
-          link: 'https://react.dev',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg'
-        },
-        {
-          title: 'TypeScript & JavaScript',
-          description: 'Type-safe development with advanced TypeScript patterns. ES6+ features and modern JS paradigms.',
-          level: 90,
-          experience: '4+ years', 
-          link: 'https://www.typescriptlang.org',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg'
-        },
-        {
-          title: 'Tailwind CSS & Styling',
-          description: 'Utility-first CSS framework mastery. Custom design systems and responsive layouts.',
-          level: 95,
-          experience: '2+ years',
-          link: 'https://tailwindcss.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg'
-        },
-        {
-          title: 'Framer Motion',
-          description: 'Advanced animations and micro-interactions. Creating smooth, performant UI animations.',
-          level: 85,
-          experience: '1+ year',
-          link: 'https://www.framer.com/motion',
-          icon: 'https://user-images.githubusercontent.com/38039349/60953119-d3c6f300-a2fc-11e9-9596-4978e5d52180.png'
-        }
-      ]
-    },
-    {
-      id: 'backend',
-      name: 'Backend Systems',
-      description: 'Scalable server-side development and API architecture',
-      icon: Code2,
-      color: 'purple',
-      items: [
-        {
-          title: 'Node.js & Express',
-          description: 'RESTful APIs, middleware architecture, and scalable backend systems with Express.js.',
-          level: 85,
-          experience: '2+ years',
-          link: 'https://nodejs.org',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg'
-        },
-        {
-          title: 'Python & FastAPI',
-          description: 'High-performance APIs with FastAPI. Data processing and automation scripts.',
-          level: 90,
-          experience: '3+ years',
-          link: 'https://python.org',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg'
-        },
-        {
-          title: 'GraphQL & APIs',
-          description: 'Modern API design with GraphQL. Schema design and efficient data fetching.',
-          level: 80,
-          experience: '2+ years',
-          link: 'https://graphql.org',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg'
-        },
-        {
-          title: 'Java & Spring',
-          description: 'Enterprise-level backend development with Spring Boot. Microservices architecture.',
-          level: 80,
-          experience: '2+ years',
-          link: 'https://spring.io',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg'
-        }
-      ]
-    },
-    {
-      id: 'mobile',
-      name: 'Mobile Development',
-      description: 'Cross-platform mobile apps with native performance',
-      icon: Smartphone,
-      color: 'green',
-      items: [
-        {
-          title: 'React Native',
-          description: 'Cross-platform mobile development. Navigation, state management, and native modules.',
-          level: 85,
-          experience: '2+ years',
-          link: 'https://reactnative.dev',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg'
-        },
-        {
-          title: 'Expo Development',
-          description: 'Rapid mobile app development with Expo SDK. OTA updates and deployment.',
-          level: 80,
-          experience: '1+ year',
-          link: 'https://expo.dev',
-          icon: 'https://static-00.iconduck.com/assets.00/expo-icon-512x512-5il5qboc.png'
-        },
-        {
-          title: 'iOS Development',
-          description: 'Native iOS development with Swift. UIKit and SwiftUI experience.',
-          level: 70,
-          experience: '1+ year',
-          link: 'https://developer.apple.com/swift',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg'
-        },
-        {
-          title: 'Android Development',
-          description: 'Native Android development with Kotlin. Material Design and Jetpack Compose.',
-          level: 65,
-          experience: '1+ year',
-          link: 'https://developer.android.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg'
-        }
-      ]
-    },
-    {
-      id: 'database',
-      name: 'Database & Storage',
-      description: 'Data modeling, optimization, and scalable storage solutions',
-      icon: Database,
-      color: 'orange',
-      items: [
-        {
-          title: 'PostgreSQL',
-          description: 'Advanced SQL queries, indexing, and database optimization. Complex relational designs.',
-          level: 85,
-          experience: '2+ years',
-          link: 'https://postgresql.org',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg'
-        },
-        {
-          title: 'MongoDB & NoSQL',
-          description: 'Document-based databases, aggregation pipelines, and schema design.',
-          level: 80,
-          experience: '2+ years',
-          link: 'https://mongodb.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg'
-        },
-        {
-          title: 'Prisma ORM',
-          description: 'Type-safe database access with Prisma. Migrations and schema management.',
-          level: 85,
-          experience: '1+ year',
-          link: 'https://prisma.io',
-          icon: 'https://avatars.githubusercontent.com/u/17219288?s=280&v=4'
-        },
-        {
-          title: 'Redis & Caching',
-          description: 'In-memory caching strategies, session management, and performance optimization.',
-          level: 75,
-          experience: '1+ year',
-          link: 'https://redis.io',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg'
-        }
-      ]
-    },
-    {
-      id: 'cloud',
-      name: 'Cloud & DevOps',
-      description: 'Infrastructure, deployment, and scalable cloud solutions',
-      icon: Cloud,
-      color: 'cyan',
-      items: [
-        {
-          title: 'AWS Services',
-          description: 'EC2, S3, RDS, Lambda serverless functions. Infrastructure as Code with CDK.',
-          level: 75,
-          experience: '1+ year',
-          link: 'https://aws.amazon.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg'
-        },
-        {
-          title: 'Vercel & Deployment',
-          description: 'Seamless deployment pipelines, edge functions, and performance optimization.',
-          level: 95,
-          experience: '2+ years',
-          link: 'https://vercel.com',
-          icon: 'https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png'
-        },
-        {
-          title: 'Docker & Containers',
-          description: 'Containerization, multi-stage builds, and orchestration with Docker Compose.',
-          level: 80,
-          experience: '1+ year',
-          link: 'https://docker.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg'
-        },
-        {
-          title: 'CI/CD Pipelines',
-          description: 'Automated testing and deployment with GitHub Actions. Quality gates and workflows.',
-          level: 80,
-          experience: '1+ year',
-          link: 'https://github.com/features/actions',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg'
-        }
-      ]
-    },
-    {
-      id: 'tools',
-      name: 'Tools & Workflow',
-      description: 'Development tools, version control, and productivity systems',
-      icon: Wrench,
-      color: 'pink',
-      items: [
-        {
-          title: 'Git & Version Control',
-          description: 'Advanced Git workflows, branching strategies, and collaborative development.',
-          level: 95,
-          experience: '4+ years',
-          link: 'https://git-scm.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg'
-        },
-        {
-          title: 'VS Code & IDEs',
-          description: 'Customized development environment, extensions, and productivity workflows.',
-          level: 95,
-          experience: '4+ years',
-          link: 'https://code.visualstudio.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg'
-        },
-        {
-          title: 'Figma & Design',
-          description: 'UI/UX design, prototyping, and design system creation. Developer handoff processes.',
-          level: 80,
-          experience: '2+ years',
-          link: 'https://figma.com',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg'
-        },
-        {
-          title: 'Testing & Quality',
-          description: 'Unit testing with Jest, integration testing, and quality assurance practices.',
-          level: 80,
-          experience: '2+ years',
-          link: 'https://jestjs.io',
-          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg'
-        }
-      ]
-    }
-  ];
 
   const categories = [
     { id: 'all', name: 'All Skills' },
@@ -302,19 +54,7 @@ const Skills = () => {
     ? skillCategories 
     : skillCategories.filter(cat => cat.id === selectedCategory);
 
-  // Get overall proficiency stats
-  const getOverallStats = () => {
-    const allItems = skillCategories.flatMap(cat => cat.items);
-    const avgLevel = Math.round(allItems.reduce((sum, item) => sum + item.level, 0) / allItems.length);
-    return {
-      totalSkills: allItems.length,
-      categories: skillCategories.length,
-      avgProficiency: avgLevel,
-      yearsExperience: '4+'
-    };
-  };
-
-  const stats = getOverallStats();
+  const stats = getSkillsStats();
 
   if (!mounted) {
     return (
@@ -372,22 +112,22 @@ const Skills = () => {
             className="text-center mb-16"
           >
             <TextGenerateEffect 
-              words="Skill Categories"
+              words={skillsPageData.title}
               className={`text-3xl md:text-5xl font-bold mb-6 font-sans ${
                 isDark ? 'text-white' : 'text-gray-900'
               }`}
               duration={0.5}
               isDark={isDark}
-              keywords={['Skill', 'Categories']}
+              keywords={skillsPageData.titleKeywords}
               isTitle={true}
             />
             <div className="max-w-3xl mx-auto">
               <TextGenerateEffect 
-                words="Organized by technology stack and development focus areas. Here's my technical expertise across the full development lifecycle."
+                words={skillsPageData.description}
                 className="text-lg md:text-xl leading-relaxed font-sans"
                 duration={0.3}
                 isDark={isDark}
-                keywords={['technology', 'stack', 'development', 'technical', 'expertise', 'lifecycle']}
+                keywords={skillsPageData.descriptionKeywords}
               />
             </div>
           </motion.div>
@@ -522,10 +262,11 @@ const Skills = () => {
             className="text-center mt-20"
           >
             <TextGenerateEffect 
-              words="Let's build something amazing together! 🚀"
+              words={skillsPageData.ctaText}
               className={`text-xl md:text-2xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-900'}`}
               duration={0.5}
               isDark={isDark}
+              keywords={skillsPageData.ctaKeywords}
             />
             <GameLuxuryButton
               variant="primary"

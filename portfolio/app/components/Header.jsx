@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronRight, User, Calendar, Mail, Sun, Moon, Home, Code, User2, Briefcase, Github, Linkedin, Dumbbell, FolderOpen } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Menu, X, ChevronRight, User, Home, Code, Briefcase, Github, Linkedin, Dumbbell, FolderOpen } from 'lucide-react';
 
 import { useTheme } from '../../components/ThemeProvider';
 import ThemeToggle from '../../components/ThemeToggle';
@@ -214,7 +214,9 @@ const Header = () => {
 
         {/* Mobile Theme Switch */}
         <div className="mt-14 flex w-full items-center justify-center border-b p-4">
-          <ThemeToggle />
+          <div className="cursor-pointer">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Social Links in Mobile Menu */}
@@ -395,7 +397,9 @@ const Header = () => {
           ))}
           
           {/* Theme Toggle Button */}
-          <ThemeToggle />
+          <div className="cursor-pointer">
+            <ThemeToggle />
+          </div>
           
           {/* Contact Button */}
           <GameLuxuryButton
@@ -403,10 +407,11 @@ const Header = () => {
             size="compact"
             icon={Briefcase}
             href="#contact"
-            className={isDark 
+            className={` cursor-pointer ${isDark 
               ? 'shadow-xl shadow-blue-500/20' 
               : 'bg-white/90 shadow-xl shadow-blue-500/20'
             }
+            `}
           >
             HIRE ME
           </GameLuxuryButton>

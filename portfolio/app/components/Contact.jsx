@@ -33,14 +33,14 @@ export function Contact() {
     {
       icon: Mail,
       label: "Email",
-      value: "austin.tran@example.com",
-      href: "mailto:austin.tran@example.com"
+      value: "austintran616@gmail.com",
+      href: "mailto:austintran616@gmail.com"
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567"
+      value: "+1 (281) 902-8247",
+      href: "tel:+12819028247"
     },
     {
       icon: MapPin,
@@ -216,26 +216,26 @@ export function Contact() {
                 {contactInfo.map((info, index) => {
                   const Icon = info.icon;
                   const content = (
-                    <div className={`flex items-center gap-4 p-4 rounded-lg border transition-all duration-300 ${
+                    <div className={`flex items-center gap-4 p-4 rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg ${
                       isDark 
-                        ? 'bg-gray-900/50 border-gray-800 hover:border-gray-700' 
-                        : 'bg-white border-gray-200 hover:border-gray-300'
+                        ? 'bg-gray-900/50 border-gray-800 hover:border-gray-700 hover:shadow-gray-900/50' 
+                        : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-gray-200/50'
                     }`}>
-                      <div className={`p-2 rounded-lg ${
-                        isDark ? 'bg-blue-600/20' : 'bg-blue-50'
+                      <div className={`p-2 rounded-lg transition-all duration-300 ${
+                        isDark ? 'bg-blue-600/20 hover:bg-blue-600/30' : 'bg-blue-50 hover:bg-blue-100'
                       }`}>
-                        <Icon className={`w-5 h-5 ${
-                          isDark ? 'text-blue-400' : 'text-blue-600'
+                        <Icon className={`w-5 h-5 transition-all duration-300 ${
+                          isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'
                         }`} />
                       </div>
                       <div>
-                        <p className={`text-sm font-medium font-sans ${
-                          isDark ? 'text-gray-400' : 'text-gray-500'
+                        <p className={`text-sm font-medium font-sans transition-colors duration-300 ${
+                          isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-600'
                         }`}>
                           {info.label}
                         </p>
-                        <p className={`font-sans ${
-                          isDark ? 'text-white' : 'text-gray-900'
+                        <p className={`font-sans transition-colors duration-300 ${
+                          isDark ? 'text-white hover:text-gray-100' : 'text-gray-900 hover:text-gray-800'
                         }`}>
                           {info.value}
                         </p>

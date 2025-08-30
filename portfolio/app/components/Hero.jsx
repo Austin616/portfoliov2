@@ -135,7 +135,11 @@ export function Hero() {
             size="default"
             icon={Mail}
             href="#contact"
-            className="shadow-xl shadow-blue-500/20"
+            className={` cursor-pointer ${isDark 
+              ? 'shadow-xl shadow-blue-500/20' 
+              : 'bg-white/90 shadow-xl shadow-blue-500/20'
+            }
+            `}
           >
             Get In Touch
           </GameLuxuryButton>
@@ -144,14 +148,15 @@ export function Hero() {
             variant="ghost"
             size="default"
             icon={Download}
-            href="/resume.pdf"
+            href="/Austin_Tran_RESUME.pdf"
             target="_blank"
-            className={isDark 
+            className={` cursor-pointer ${isDark 
               ? 'shadow-xl shadow-blue-500/20' 
               : 'bg-white/90 shadow-xl shadow-blue-500/20'
             }
+            `}
           >
-            Download Resume
+            View Resume
           </GameLuxuryButton>
           
           <GameLuxuryButton
@@ -159,10 +164,11 @@ export function Hero() {
             size="default"
             icon={Code}
             href="#projects"
-            className={isDark 
+            className={` cursor-pointer ${isDark 
               ? 'shadow-xl shadow-blue-500/20' 
               : 'bg-white/90 shadow-xl shadow-blue-500/20'
             }
+            `}
           >
             View My Work
           </GameLuxuryButton>
