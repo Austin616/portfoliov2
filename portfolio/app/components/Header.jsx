@@ -138,103 +138,222 @@ const Header = () => {
         <Menu className="w-6 h-6" />
       </button>
 
+      {/* Mobile Menu Backdrop */}
+      <motion.div
+        initial={false}
+        variants={{
+          hidden: { opacity: 0, backdropFilter: "blur(0px)" },
+          visible: { opacity: 1, backdropFilter: "blur(20px)" }
+        }}
+        animate={isMenuOpen ? "visible" : "hidden"}
+        className={`
+          fixed inset-0 z-[999998] sm:hidden ${
+            !isMenuOpen ? 'pointer-events-none' : ''
+          }
+        `}
+        style={{
+          background: isDark 
+            ? 'rgba(0, 0, 0, 0.8)' 
+            : 'rgba(255, 255, 255, 0.8)'
+        }}
+        onClick={toggleMenu}
+      />
+
       {/* Mobile Menu */}
       <motion.div
         initial={false}
         variants={{
-          hidden: { width: "100%", left: "100%" },
-          visible: { width: "100%", left: 0 }
+          hidden: { x: "100%", opacity: 0 },
+          visible: { x: 0, opacity: 1 }
         }}
         animate={isMenuOpen ? "visible" : "hidden"}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={`
-          fixed bottom-0 left-0 right-0 top-0 z-[999999] flex h-full w-full flex-col items-center overflow-hidden px-4 sm:hidden ${
+          fixed right-0 top-0 bottom-0 z-[999999] w-80 max-w-[80vw] flex flex-col overflow-hidden sm:hidden ${
             !isMenuOpen ? 'pointer-events-none' : ''
-          } ${isDark ? 'bg-black' : 'bg-white'}
+          }
         `}
+        style={{
+          background: isDark 
+            ? 'rgba(0, 0, 0, 0.95)' 
+            : 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(20px)',
+          borderLeft: isDark ? '1px solid rgba(59, 130, 246, 0.2)' : '1px solid rgba(59, 130, 246, 0.1)'
+        }}
       >
-        <button
-          onClick={toggleMenu}
-          className={`
-            absolute right-4 top-2 transition-all duration-300 ease-in-out sm:hidden p-2 rounded-lg ${
-              isMenuOpen ? 'opacity-100' : 'opacity-0'
-            } ${isDark ? 'text-white hover:bg-gray-800' : 'text-gray-900 hover:bg-gray-100'}
-          `}
-        >
-          <X className="w-6 h-6" />
-        </button>
-
-        {navLinks.map((link, index) => (
-          link.isPage ? (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsMenuOpen(false)}
-              className={`
-                group mt-14 first:mt-14 flex w-full items-center justify-between gap-x-3 border-b p-4 text-left text-2xl font-semibold font-sans transition-colors ${
-                  pathname === link.href
-                    ? isDark 
-                      ? 'border-blue-500 bg-blue-500/10 text-blue-400'
-                      : 'border-blue-500 bg-blue-500/10 text-blue-600'
-                    : isDark 
-                      ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
-                      : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
-                }
-              `}
-            >
-              <div className="flex items-center gap-x-3">
-                {link.icon}
-                {link.label}
-              </div>
-              <ChevronRight className="relative left-0 h-6 w-6 stroke-[3] opacity-50 transition-all duration-200 ease-in-out group-hover:left-1 group-hover:opacity-100" />
-            </Link>
-          ) : (
-            <a
-              key={link.href}
-              onClick={(e) => {
-                smoothScroll(e, link.href);
-                setIsMenuOpen(false);
-              }}
-              className={`
-                group mt-14 first:mt-14 flex w-full items-center justify-between gap-x-3 border-b p-4 text-left text-2xl font-semibold font-sans transition-colors ${
-                  isDark 
-                    ? 'border-gray-800 text-white hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400'
-                    : 'border-gray-200 text-gray-900 hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-600'
-                }
-              `}
-              href={link.href}
-            >
-              <div className="flex items-center gap-x-3">
-                {link.icon}
-                {link.label}
-              </div>
-              <ChevronRight className="relative left-0 h-6 w-6 stroke-[3] opacity-50 transition-all duration-200 ease-in-out group-hover:left-1 group-hover:opacity-100" />
-            </a>
-          )
-        ))}
-
-        {/* Mobile Theme Switch */}
-        <div className="mt-14 flex w-full items-center justify-center border-b p-4">
-          <div className="cursor-pointer">
-            <ThemeToggle />
-          </div>
+        {/* Header with close button */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+          <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            Menu
+          </h3>
+          <motion.button
+            onClick={toggleMenu}
+            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            className={`
+              p-2 rounded-xl transition-all duration-200 ${
+                isDark 
+                  ? 'text-gray-300 hover:text-white hover:bg-gray-800/50' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
+              }
+            `}
+          >
+            <X className="w-5 h-5" />
+          </motion.button>
         </div>
 
-        {/* Social Links in Mobile Menu */}
-        <div className="flex items-center gap-x-8 mt-8">
-          {socialLinks.map((link) => (
-            <Link
-              key={link.title}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`transition-all duration-300 hover:scale-125 ${
-                isDark ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
-              }`}
+        {/* Navigation Links */}
+        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-2">
+
+        {navLinks.map((link, index) => {
+            const isActive = pathname === link.href;
+            return link.isPage ? (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.3 }}
+              >
+                <Link
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`
+                    group flex items-center gap-x-3 p-4 rounded-xl transition-all duration-200 ${
+                      isActive
+                        ? isDark 
+                          ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' 
+                          : 'bg-blue-500/20 text-blue-600 border border-blue-500/30'
+                        : isDark 
+                          ? 'text-gray-300 hover:text-white hover:bg-gray-800/50' 
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
+                    }
+                  `}
+                >
+                  <motion.div
+                    className={`p-2 rounded-lg ${
+                      isActive 
+                        ? 'bg-blue-500/30' 
+                        : isDark ? 'bg-gray-800/50' : 'bg-gray-100/50'
+                    }`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
+                    {link.icon}
+                  </motion.div>
+                  <span className="font-medium text-base flex-1">{link.label}</span>
+                  {isActive && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="w-2 h-2 bg-blue-500 rounded-full"
+                    />
+                  )}
+                </Link>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.3 }}
+              >
+                <a
+                  onClick={(e) => {
+                    smoothScroll(e, link.href);
+                    setIsMenuOpen(false);
+                  }}
+                  href={link.href}
+                  className={`
+                    group flex items-center gap-x-3 p-4 rounded-xl transition-all duration-200 cursor-pointer ${
+                      isDark 
+                        ? 'text-gray-300 hover:text-white hover:bg-gray-800/50' 
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
+                    }
+                  `}
+                >
+                  <motion.div
+                    className={`p-2 rounded-lg ${isDark ? 'bg-gray-800/50' : 'bg-gray-100/50'}`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
+                    {link.icon}
+                  </motion.div>
+                  <span className="font-medium text-base flex-1">{link.label}</span>
+                </a>
+              </motion.div>
+            );
+          })}
+
+        </div>
+
+        {/* Footer Section */}
+        <div className="px-6 py-6 border-t border-gray-200 dark:border-gray-800 space-y-4">
+          {/* Theme Toggle */}
+          <motion.div 
+            className="flex items-center justify-between p-4 rounded-xl bg-gray-100/50 dark:bg-gray-800/50"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: navLinks.length * 0.1 + 0.2 }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-gray-200/50 dark:bg-gray-700/50">
+                <Palette className="w-4 h-4" />
+              </div>
+              <span className={`font-medium text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                Theme
+              </span>
+            </div>
+            <ThemeToggle />
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div
+            className="flex items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: navLinks.length * 0.1 + 0.3 }}
+          >
+            {socialLinks.map((link, index) => (
+              <motion.div
+                key={link.title}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: navLinks.length * 0.1 + 0.4 + index * 0.1 }}
+              >
+                <Link
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`
+                    p-3 rounded-xl transition-all duration-200 inline-block ${
+                      isDark 
+                        ? 'text-gray-400 hover:text-blue-400 hover:bg-blue-500/10' 
+                        : 'text-gray-500 hover:text-blue-600 hover:bg-blue-500/10'
+                    }
+                  `}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.icon}
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Hire Me Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: navLinks.length * 0.1 + 0.5 }}
+          >
+            <GameLuxuryButton
+              variant={isDark ? "primary" : "ghost"}
+              size="compact"
+              icon={Briefcase}
+              href="#contact"
+              className="w-full justify-center"
               onClick={() => setIsMenuOpen(false)}
             >
-              {link.icon}
-            </Link>
-          ))}
+              HIRE ME
+            </GameLuxuryButton>
+          </motion.div>
         </div>
       </motion.div>
 
